@@ -1,0 +1,19 @@
+{
+  "name": "cesieats",
+  "version": "1.0.0",
+  "description": "CesiEats a pour but de mettre en relation les clients, les restaurateurs et les livreurs tout en ayant une dimension de gestion commerciale et technique. Il s'agit donc d'un service d'offre de restauration par internet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielncl/cesiEats.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielncl/cesiEats/issues"
+  },
+  "homepage": "https://github.com/gabrielncl/cesiEats#readme"
+}
