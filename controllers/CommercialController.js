@@ -1,17 +1,16 @@
 const Commercial = require("../models/Commercial");
+const handlePassword = require("../modules/hashPassword");
+const referrer = require("../modules/referrer");
 //const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const handleNewCommercial = async (req, res) => {
-	const { email, password} =
+	const { email } =
 		req.body;
-
-	hashed_password = await bcrypt.hash(password, 8);
 
 
 	const newCommercial = new Commercial({
 		email,
-		password: hashed_password,
+		password: await handlePassword(req, res),
 	});
 
 	await newCommercial.save();

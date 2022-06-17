@@ -16,8 +16,11 @@ router.put("/register/:id", async (req, res, next) => {
 	let id
 });
 
-router.delete("/register/:id", async (req, res, next) => {
-	let id
-});
+// Creating a DELETE request
+router.delete('/register/:_id', (req, res) => {
+	let _id
+	console.log("DELETE Request Called for /api endpoint")
+	res.send("DELETE Request Called")
+ })
 
 module.exports = router;
