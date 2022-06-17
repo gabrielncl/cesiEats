@@ -1,13 +1,11 @@
 const User = require("../models/User");
+const handlePassword = require("../modules/hashPassword");
+const referrer = require("../modules/referrer");
 //const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const handleNewUser = async (req, res) => {
-	const { firstname, lastname, address, email, password, phone } =
+	const { firstname, lastname, address, email, phone } =
 		req.body;
-
-	hashed_password = await bcrypt.hash(password, 8);
-	referrer = Math.random().toString(36).substring(2,8).toUpperCase();
 
 
 	const newUser = new User({
@@ -15,7 +13,7 @@ const handleNewUser = async (req, res) => {
 		lastname,
 		address,
 		email,
-		password: hashed_password,
+		password: await handlePassword(req, res),
 		phone,
 		referrer,
 	});
