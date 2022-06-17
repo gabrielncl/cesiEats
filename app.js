@@ -7,7 +7,7 @@ const User = require('./models/User');
 const Commercial = require('./models/Commercial');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/auth-user');
 var commercialsRouter = require('./routes/auth-com');
 
 var app = express();

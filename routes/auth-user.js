@@ -1,22 +1,18 @@
 var express = require("express");
-const Commercial = require("../models/Commercial");
+const User = require("../models/User");
 var router = express.Router();
-const handleNewCommercial = require("../controllers/CommercialController");
+const handleNewUser = require("../controllers/UserController");
 
 router.get("/api/get", async (req, res, next) => {
-	const posts = await Commercial.find();
+	const posts = await User.find();
 	res.send(posts);
 });
 
 router.post("/register", async (req, res, next) => {
-	handleNewCommercial(req, res);
+	handleNewUser(req, res);
 });
 
 router.put("/register/:id", async (req, res, next) => {
-	let id
-});
-
-router.delete("/register/:id", async (req, res, next) => {
 	let id
 });
 
