@@ -1,16 +1,15 @@
 var express = require("express");
-const Commercial = require("../models/Commercial");
+const Deliverer = require("../models/Deliverer");
 var router = express.Router();
 const {
-	handleNewCommercial,
+	handleNewDeliverer,
 	handleLogin,
-	deleteCommercial,
-	updateCommercial,
-} = require("../controllers/CommercialController");
-
+	deleteDeliverer,
+	updateDeliverer,
+} = require("../controllers/DelivererController");
 
 router.get("/get", async (req, res, next) => {
-	const posts = await Commercial.find();
+	const posts = await Deliverer.find();
 	res.send(posts);
 });
 
@@ -19,15 +18,15 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-	handleNewCommercial(req, res);
+	handleNewDeliverer(req, res);
 });
 
 router.delete("/delete/:id", async (req, res, next) => {
-	deleteCommercial(req, res);
+	deleteDeliverer(req, res);
 });
 
 router.put("/update/:id", async (req, res, next) => {
-	updateCommercial(req, res);
+	updateDeliverer(req, res);
 });
 
 module.exports = router;
