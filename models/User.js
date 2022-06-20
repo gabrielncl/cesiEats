@@ -4,20 +4,16 @@ const Schema = mongoose.Schema;
 const userSchema = Schema({
 	firstname: {
 		type: String,
-		required: true,
 	},
 	lastname: {
 		type: String,
-		required: true,
 	},
 	address: {
 		type: String,
-		required: true,
 	},
 	email: {
 		type: String,
 		required: true,
-		unique: true,
 	},
 	password: {
 		type: String,
@@ -25,13 +21,9 @@ const userSchema = Schema({
 	},
 	phone: {
 		type: Number,
-		required: true,
-		unique: true,
 	},
 	referrer: {
 		type: String,
-		required: true,
-		unique: true,
 	},
 	//refreshToken: String,
 });
