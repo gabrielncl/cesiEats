@@ -16,9 +16,9 @@ var usersRouter = require('./routes/auth-user');
 var devsRouter = require('./routes/auth-dev');
 var techsRouter = require('./routes/auth-tech');
 var commercialsRouter = require('./routes/auth-com');
+var restaurantsRouter = require('./routes/auth-restaurant');
 var deliverersRouter = require('./routes/auth-deliverer');
 // var shopsRouter = require('./routes/shop');
-
 
 var app = express();
 
@@ -37,6 +37,7 @@ app.use('/users', usersRouter);
 app.use('/devs', devsRouter);
 app.use('/techs', techsRouter);
 app.use('/commercials', commercialsRouter);
+app.use('/restaurants', restaurantsRouter);
 app.use('/deliv', deliverersRouter);
 //app.use('/shop', shopsRouter);
 
