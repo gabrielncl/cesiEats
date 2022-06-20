@@ -8,11 +8,6 @@ const {
 	updateUser,
 } = require("../controllers/UserController");
 
-router.get("/api/get", async (req, res, next) => {
-	const posts = await User.find();
-	res.send(posts);
-});
-
 router.post("/login", async (req, res, next) => {
 	handleLogin(req, res);
 });

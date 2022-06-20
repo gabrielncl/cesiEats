@@ -1,16 +1,16 @@
 var express = require("express");
-const Commercial = require("../models/Commercial");
+const Technician = require("../models/Technician");
 var router = express.Router();
+
 const {
-	handleNewCommercial,
+	handleNewTechnician,
 	handleLogin,
-	deleteCommercial,
-	updateCommercial,
-} = require("../controllers/CommercialController");
+	deleteTechnician,
+	updateTechnician,
+} = require("../controllers/TechnicianController");
 
-
-router.get("/get", async (req, res, next) => {
-	const posts = await Commercial.find();
+router.get("/api/get", async (req, res, next) => {
+	const posts = await Technician.find();
 	res.send(posts);
 });
 
@@ -19,15 +19,15 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-	handleNewCommercial(req, res);
+	handleNewTechnician(req, res);
 });
 
 router.delete("/delete/:id", async (req, res, next) => {
-	deleteCommercial(req, res);
+	deleteTechnician(req, res);
 });
 
 router.put("/update/:id", async (req, res, next) => {
-	updateCommercial(req, res);
+	updateTechnician(req, res);
 });
 
 module.exports = router;
