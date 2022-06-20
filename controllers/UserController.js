@@ -18,7 +18,10 @@ const handleNewUser = async (req, res) => {
 	});
 
 	await newUser.save();
-	res.send(newUser);
+	res.status(200).json({
+		message: "User Created",
+		data: { status: "success", user: newUser },
+	});
 };
 
 const handleLogin = async (req, res) => {
@@ -32,21 +35,39 @@ const handleLogin = async (req, res) => {
 			res.status(401).send("Invalid email or password");
 		} else {
 			const jwtToken = token(user);
-			res
-				.status(200)
-				.json({ connection: "success", user: user, token: jwtToken });
+			res.status(200).json({
+				message: "User Logged",
+				data: { status: "success", user: user, token: jwtToken },
+			});
 		}
 	}
 };
 
 const deleteUser = async (req, res) => {
-	await User.findByIdAndDelete(req.params.id);
-	res.status(200).send("User deleted");
+	const deletedUser = await User.findByIdAndDelete(req.params.id);
+	res
+		.status(200)
+		.json({ message: "User Deleted", data: { status: "success", user: deletedUser } });
+};
+
+const updateUser = async (req, res) => {
+	const { firstname, lastname, address, email, phone } = req.body;
+	const user = await User.findByIdAndUpdate(req.params.id, {
+		firstname,
+		lastname,
+		address,
+		email,
+		phone,
+		password: await handlePassword(req, res),
+	});
+	res
+		.status(200)
+		.json({ message: "User Updated", data: { status: "success", user: user } });
 };
 
 module.exports = {
 	handleNewUser,
 	handleLogin,
 	deleteUser,
+	updateUser,
 };
-

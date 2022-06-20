@@ -5,6 +5,7 @@ const {
 	handleNewUser,
 	handleLogin,
 	deleteUser,
+	updateUser,
 } = require("../controllers/UserController");
 
 router.get("/api/get", async (req, res, next) => {
@@ -22,6 +23,10 @@ router.post("/register", async (req, res, next) => {
 
 router.delete("/delete/:id", async (req, res, next) => {
 	deleteUser(req, res);
+});
+
+router.put("/update/:id", async (req, res, next) => {
+	updateUser(req, res);
 });
 
 module.exports = router;
