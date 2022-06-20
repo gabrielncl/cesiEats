@@ -5,10 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const User = require('./models/User');
 const Commercial = require('./models/Commercial');
+const Deliverer = require('./models/Deliverer');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/auth-user');
 var commercialsRouter = require('./routes/auth-com');
+var delivRouter = require('./routes/auth-deliverer');
 
 var app = express();
 
