@@ -4,10 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const User = require('./models/User');
+
+const Developer = require('./models/Developer');
 const Technician = require('./models/Technician');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/auth-user');
+var devsRouter = require('./routes/auth-dev');
 var techsRouter = require('./routes/auth-tech');
 var commercialsRouter = require('./routes/auth-com');
 var shop = require('./routes/shop');
@@ -26,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/devs', devsRouter);
 app.use('/techs', techsRouter);
 app.use('/commercials', commercialsRouter);
 app.use('/shop', shop);
