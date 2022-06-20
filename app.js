@@ -9,6 +9,8 @@ const Technician = require('./models/Technician');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/auth-user');
 var techsRouter = require('./routes/auth-tech');
+var commercialsRouter = require('./routes/auth-com');
+var shop = require('./routes/shop');
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/techs', techsRouter);
+app.use('/commercials', commercialsRouter);
+app.use('/shop', shop);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
