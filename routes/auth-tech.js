@@ -1,27 +1,33 @@
 var express = require("express");
-const User = require("../models/User");
+const Technician = require("../models/Technician");
 var router = express.Router();
+
 const {
-	handleNewUser,
+	handleNewTechnician,
 	handleLogin,
-	deleteUser,
-	updateUser,
-} = require("../controllers/UserController");
+	deleteTechnician,
+	updateTechnician,
+} = require("../controllers/TechnicianController");
+
+router.get("/api/get", async (req, res, next) => {
+	const posts = await Technician.find();
+	res.send(posts);
+});
 
 router.post("/login", async (req, res, next) => {
 	handleLogin(req, res);
 });
 
 router.post("/register", async (req, res, next) => {
-	handleNewUser(req, res);
+	handleNewTechnician(req, res);
 });
 
 router.delete("/delete/:id", async (req, res, next) => {
-	deleteUser(req, res);
+	deleteTechnician(req, res);
 });
 
 router.put("/update/:id", async (req, res, next) => {
-	updateUser(req, res);
+	updateTechnician(req, res);
 });
 
 module.exports = router;
