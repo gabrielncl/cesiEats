@@ -8,7 +8,7 @@ const {
 	updateRestaurant,
 } = require("../controllers/RestaurantController");
 
-router.get("/api/get", async (req, res, next) => {
+router.get("/get", async (req, res, next) => {
 	const posts = await Restaurant.find();
 	res.send(posts);
 });

@@ -51,7 +51,7 @@ const deleteRestaurant = async (req, res) => {
 };
 
 const updateRestaurant = async (req, res) => {
-	const { name, address, email, phone } = req.body;
+	const { name, address, email, phone, logo } = req.body;
 	const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, {
 		name,
 		address,

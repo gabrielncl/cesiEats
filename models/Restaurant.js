@@ -31,4 +31,4 @@ const restaurantSchema = Schema({
 	//refreshToken: String,
 });
 
-module.exports = mongoose.model("User", restaurantSchema);
+module.exports = mongoose.model("Restaurant", restaurantSchema);
