@@ -9,7 +9,7 @@ const {
 } = require("../controllers/CommercialController");
 
 
-router.get("/api/get", async (req, res, next) => {
+router.get("/get", async (req, res, next) => {
 	const posts = await Commercial.find();
 	res.send(posts);
 });

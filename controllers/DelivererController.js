@@ -52,7 +52,7 @@ const deleteDeliverer = async (req, res) => {
 };
 
 const updateDeliverer = async (req, res) => {
-	const { firstname, lastname, address, email, phone } = req.body;
+	const { firstname, lastname, photo, email, phone } = req.body;
 	const deliverer = await Deliverer.findByIdAndUpdate(req.params.id, {
 		firstname,
 		lastname,
