@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const commercialsSchema = Schema({
+const commercialSchema = Schema({
 	email: {
 		type: String,
 		required: true,
@@ -14,4 +14,4 @@ const commercialsSchema = Schema({
 	refreshToken: String,
 });
 
-module.exports = mongoose.model("Commercial", commercialsSchema);
+module.exports = mongoose.model("Commercial", commercialSchema);
