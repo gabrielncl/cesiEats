@@ -9,6 +9,7 @@ const Commercial = require('./models/Commercial');
 const Deliverer = require('./models/Deliverer');
 const Developer = require('./models/Developer');
 const Technician = require('./models/Technician');
+// const Shop = require('./models/Shop');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/auth-user');
@@ -16,7 +17,7 @@ var devsRouter = require('./routes/auth-dev');
 var techsRouter = require('./routes/auth-tech');
 var commercialsRouter = require('./routes/auth-com');
 var deliverersRouter = require('./routes/auth-deliverer');
-var shop = require('./routes/shop');
+// var shopsRouter = require('./routes/shop');
 
 
 var app = express();
@@ -37,7 +38,7 @@ app.use('/devs', devsRouter);
 app.use('/techs', techsRouter);
 app.use('/commercials', commercialsRouter);
 app.use('/deliv', deliverersRouter);
-app.use('/shop', shop);
+//app.use('/shop', shopsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

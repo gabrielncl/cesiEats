@@ -41,7 +41,7 @@ const handleLogin = async (req, res) => {
 			});
 			res.cookie("token", jwtToken, {
 				httpOnly: true,
-				)
+			})
 		}
 	}
 };
