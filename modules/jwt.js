@@ -1,3 +1,7 @@
-/*var jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const createJWT = (user) =>*/
+const token = (user) => jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+});
+
+module.exports = token
