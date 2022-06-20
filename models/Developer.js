@@ -11,7 +11,6 @@ const developerSchema = Schema({
 		type: String,
 		required: true,
 	},
-	//refreshToken: String,
 });
 
 module.exports = mongoose.model("Developer", developerSchema);
