@@ -39,6 +39,9 @@ const handleLogin = async (req, res) => {
 				message: "User Logged",
 				data: { status: "success", user: user, token: jwtToken },
 			});
+			res.cookie("token", jwtToken, {
+				httpOnly: true,
+				)
 		}
 	}
 };
