@@ -2,7 +2,7 @@ const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
 const referrer = require("../modules/referrer");
 const bcrypt = require("bcrypt");
-const { token, createCookie } = require("../modules/jwt");
+const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone } = req.body;
@@ -17,10 +17,20 @@ const handleNewUser = async (req, res) => {
 		referrer,
 	});
 
-	await newUser.save();
-	res.status(200).json({
-		message: "User Created",
-		data: { status: "success", user: newUser },
+	await newUser.save((err, newUser) => {
+		if (err) {
+			res
+				.status(500)
+				.json({
+					message: "User already exists",
+					data: { status: "error", error: err },
+				});
+		} else {
+			res.status(200).json({
+				message: "User Created",
+				data: { status: "success", user: newUser },
+			});
+		}
 	});
 };
 
@@ -34,12 +44,17 @@ const handleLogin = async (req, res) => {
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
-			const jwtToken = token(user);
-			res.status(200).json({
-				message: "User Logged",
-				data: { status: "success", user: user, token: jwtToken },
-			});
-			createCookie(jwtToken);
+			const token = createJWT(user);
+			res
+				.cookie("token", token, {
+					httpOnly: true,
+					maxAge: 1000,
+				})
+				.status(200)
+				.json({
+					message: "User Logged",
+					data: { status: "success", user: user },
+				});
 		}
 	}
 };
