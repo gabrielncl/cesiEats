@@ -1,5 +1,4 @@
 var express = require("express");
-const User = require("../models/User");
 var router = express.Router();
 const {
 	handleNewUser,

@@ -2,7 +2,7 @@ const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
 const referrer = require("../modules/referrer");
 const bcrypt = require("bcrypt");
-const token = require("../modules/jwt");
+const { token, createCookie } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone } = req.body;
@@ -39,18 +39,17 @@ const handleLogin = async (req, res) => {
 				message: "User Logged",
 				data: { status: "success", user: user, token: jwtToken },
 			});
-			res.cookie("token", jwtToken, {
-				httpOnly: true,
-				)
+			createCookie(jwtToken);
 		}
 	}
 };
 
 const deleteUser = async (req, res) => {
 	const deletedUser = await User.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "User Deleted", data: { status: "success", user: deletedUser } });
+	res.status(200).json({
+		message: "User Deleted",
+		data: { status: "success", user: deletedUser },
+	});
 };
 
 const updateUser = async (req, res) => {
