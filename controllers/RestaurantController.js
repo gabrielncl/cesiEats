@@ -4,6 +4,7 @@ const referrer = require("../modules/referrer");
 const bcrypt = require("bcrypt");
 const token = require("../modules/jwt");
 
+// AUTHENTIFICATION
 const handleNewRestaurant = async (req, res) => {
 	const { name, address, email, phone, logo } = req.body;
 
