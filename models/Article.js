@@ -19,6 +19,10 @@ const articleSchema = Schema({
 	category: {
 		type: String,
 		required: true,
+	},
+	restaurantName:{
+		type: String,
+		required: true
 	}
 	//refreshToken: String,
 });

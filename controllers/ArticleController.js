@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // ARTICLE 
 const handleNewArticle = async (req, res) => {
-	const { name, description, price, photo, category } = req.body;
+	const { name, description, price, photo, category, restaurantName} = req.body;
 
 	const newArticle = new Article({
 		name,
@@ -12,6 +12,7 @@ const handleNewArticle = async (req, res) => {
 		price,
 		photo,
 		category,
+		restaurantName,
 	});
 
 	await newArticle.save();
@@ -29,13 +30,14 @@ const deleteArticle = async (req, res) => {
 };
 
 const updateArticle = async (req, res) => {
-	const { name, price, photo, description, category } = req.body;
+	const { name, price, photo, description, category, restaurantName } = req.body;
 	const article = await Article.findByIdAndUpdate(req.params.id, {
 		name,
 		price,
 		photo,
 		description,
 		category,
+		restaurantName,
 	});
 	res
 		.status(200)
