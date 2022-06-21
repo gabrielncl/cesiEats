@@ -1,16 +1,15 @@
 var express = require("express");
-const Commercial = require("../models/Commercial");
+const Restaurant = require("../models/Restaurant");
 var router = express.Router();
 const {
-	handleNewCommercial,
+	handleNewRestaurant,
 	handleLogin,
-	deleteCommercial,
-	updateCommercial,
-} = require("../controllers/CommercialController");
-
+	deleteRestaurant,
+	updateRestaurant,
+} = require("../controllers/RestaurantController");
 
 router.get("/get", async (req, res, next) => {
-	const posts = await Commercial.find();
+	const posts = await Restaurant.find();
 	res.send(posts);
 });
 
@@ -19,15 +18,15 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-	handleNewCommercial(req, res);
+	handleNewRestaurant(req, res);
 });
 
 router.delete("/delete/:id", async (req, res, next) => {
-	deleteCommercial(req, res);
+	deleteRestaurant(req, res);
 });
 
 router.put("/update/:id", async (req, res, next) => {
-	updateCommercial(req, res);
+	updateRestaurant(req, res);
 });
 
 module.exports = router;

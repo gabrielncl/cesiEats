@@ -4,10 +4,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const User = require('./models/User');
+const Commercial = require('./models/Commercial');
+const Deliverer = require('./models/Deliverer');
+const Developer = require('./models/Developer');
+const Technician = require('./models/Technician');
+// const Shop = require('./models/Shop');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/auth-user');
+var devsRouter = require('./routes/auth-dev');
+var techsRouter = require('./routes/auth-tech');
 var commercialsRouter = require('./routes/auth-com');
-var shop = require('./routes/shop');
+var deliverersRouter = require('./routes/auth-deliverer');
+// var shop = require('./routes/shop');
+
 
 var app = express();
 
@@ -23,8 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/devs', devsRouter);
+app.use('/techs', techsRouter);
 app.use('/commercials', commercialsRouter);
-app.use('/shop', shop);
+app.use('/deliv', deliverersRouter);
+// app.use('/shop', shop);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
