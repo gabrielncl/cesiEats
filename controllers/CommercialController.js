@@ -1,6 +1,6 @@
 const Commercial = require("../models/Commercial");
 const handlePassword = require("../modules/hashPassword");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 
 const handleNewCommercial = async (req, res) => {
 	const { email } =
@@ -24,7 +24,7 @@ const handleLogin = async(req,res) => {
 	if (!com){
 		res.status(401).send("Invalid email or password");
 	}else{
-		const isValidPassword = await bcrypt.compare(password, com.password);
+		const isValidPassword = await bcryptjs.compare(password, com.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {

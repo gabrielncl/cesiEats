@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
     user_id: {
-        type: Number,
-        unique: true,
+        type: String,
     },
     description: {
 		type: String,

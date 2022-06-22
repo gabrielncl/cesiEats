@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
@@ -40,7 +40,7 @@ const handleLogin = async (req, res) => {
 	if (!user) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, user.password);
+		const isValidPassword = await bcryptjs.compare(password, user.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {

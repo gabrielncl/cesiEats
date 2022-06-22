@@ -1,6 +1,6 @@
 const Developer = require("../models/Developer")
 const handlePassword = require("../modules/hashPassword");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 //const jwt = require("jsonwebtoken");
 
 const handleNewDeveloper = async (req, res) => {
@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
 	if (!dev) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, dev.password);
+		const isValidPassword = await bcryptjs.compare(password, dev.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {

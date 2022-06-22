@@ -9,11 +9,23 @@ const checkJWT = (req, res, next) => {
 	const token = req.cookies.token;
 	jwt.verify(token, process.env.JWT_SECRET, (err) => {
 		if (err) {
-			res.status(401).send("Invalid token");
+			res.status(401).send("Invalid token").redirect("/login");
 		} else {
 			return next();
 		}
 	});
+};
+const returnUserFromJwt = (req, res) => {
+	const token = req.cookies.token;
+	const user = jwt.verify(token, process.env.JWT_SECRET);
+	jwt.verify(token, process.env.JWT_SECRET, (err) => {
+		if (err) {
+			res.status(401).send("Invalid token");
+		} else {
+			user_id = user.user._id;
+		}
+	});
+	return user_id;
 };
 
 const createCookie = (token) => async (req, res) => {
@@ -33,4 +45,4 @@ const createCookie = (token) => async (req, res) => {
 	});
 };*/
 
-module.exports = { createJWT, createCookie, checkJWT };
+module.exports = { createJWT, createCookie, checkJWT, returnUserFromJwt };

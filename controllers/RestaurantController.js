@@ -1,7 +1,7 @@
 const Restaurant = require("../models/Restaurant");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const token = require("../modules/jwt");
 
 // AUTHENTIFICATION
@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
 	if (!restaurant) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, restaurant.password);
+		const isValidPassword = await bcryptjs.compare(password, restaurant.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
