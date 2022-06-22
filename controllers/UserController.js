@@ -1,26 +1,40 @@
 const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
-const referrer = require("../modules/referrer");
+const referralCode = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
-const token = require("../modules/jwt");
+const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
-	const { firstname, lastname, address, email, phone } = req.body;
+	const { firstname, lastname, address, email, phone, referrer } = req.body;
 
-	const newUser = new User({
+	const test = {
 		firstname,
 		lastname,
 		address,
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer,
-	});
+		referralCode,
+		referrer: ((await User.find({ referralCode: referrer }))[0] || {})._id,
+	};
 
-	await newUser.save();
-	res.status(200).json({
-		message: "User Created",
-		data: { status: "success", user: newUser },
+	console.log(test);
+
+	const newUser = new User(test);
+
+	await newUser.save((err, newUser) => {
+		if (err) {
+			console.error(err);
+			res.status(500).json({
+				message: "User already exists",
+				data: { status: "error", error: err },
+			});
+		} else {
+			res.status(200).json({
+				message: "User Created",
+				data: { status: "success", user: newUser },
+			});
+		}
 	});
 };
 
@@ -34,23 +48,27 @@ const handleLogin = async (req, res) => {
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
-			const jwtToken = token(user);
-			res.status(200).json({
-				message: "User Logged",
-				data: { status: "success", user: user, token: jwtToken },
-			});
-			res.cookie("token", jwtToken, {
-				httpOnly: true,
-			})
+			const token = createJWT(user);
+			res
+				.cookie("token", token, {
+					httpOnly: true,
+					maxAge: 1000 * 60 * 60,
+				})
+				.status(200)
+				.json({
+					message: "User Logged",
+					data: { status: "success", user: user },
+				});
 		}
 	}
 };
 
 const deleteUser = async (req, res) => {
 	const deletedUser = await User.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "User Deleted", data: { status: "success", user: deletedUser } });
+	res.status(200).json({
+		message: "User Deleted",
+		data: { status: "success", user: deletedUser },
+	});
 };
 
 const updateUser = async (req, res) => {

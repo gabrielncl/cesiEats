@@ -1,6 +1,6 @@
 const Restaurant = require("../models/Restaurant");
 const handlePassword = require("../modules/hashPassword");
-const referrer = require("../modules/referrer");
+const referrer = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
 const token = require("../modules/jwt");
 
