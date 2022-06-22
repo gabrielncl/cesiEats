@@ -23,10 +23,10 @@ const delivererSchema = Schema({
 		type: Number,
 		required: true,
 	},
-	referrer: {
+	referralCode: {
 		type: String,
 	},
-	referralCode: {
+	referrer: {
 		type: String,
 	},
     photo: {

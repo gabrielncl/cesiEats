@@ -49,7 +49,10 @@ const deleteDeliverer = async (req, res) => {
 	const deletedDeliverer = await Deliverer.findByIdAndDelete(req.params.id);
 	res
 		.status(200)
-		.json({ message: "Deliverer Deleted", data: { status: "success", deliverer: deletedDeliverer } });
+		.json({
+			message: "Deliverer Deleted",
+			data: { status: "success", deliverer: deletedDeliverer },
+		});
 };
 
 const updateDeliverer = async (req, res) => {
@@ -60,11 +63,14 @@ const updateDeliverer = async (req, res) => {
 		email,
 		phone,
 		password: await handlePassword(req, res),
-        photo,
+		photo,
 	});
 	res
 		.status(200)
-		.json({ message: "Deliverer Updated", data: { status: "success", deliverer: deliverer } });
+		.json({
+			message: "Deliverer Updated",
+			data: { status: "success", deliverer: deliverer },
+		});
 };
 
 module.exports = {
