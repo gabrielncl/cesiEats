@@ -14,6 +14,7 @@ const userSchema = Schema({
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	password: {
 		type: String,
@@ -21,11 +22,14 @@ const userSchema = Schema({
 	},
 	phone: {
 		type: Number,
+		required: true,
+	},
+	referralCode: {
+		type: String,
 	},
 	referrer: {
 		type: String,
 	},
-	//refreshToken: String,
 });
 
 module.exports = mongoose.model("User", userSchema);
