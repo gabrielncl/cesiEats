@@ -8,6 +8,7 @@ const delivererSchema = Schema({
 	},
 	lastname: {
 		type: String,
+		required: true,
 	},
 	email: {
 		type: String,
@@ -20,8 +21,12 @@ const delivererSchema = Schema({
 	},
 	phone: {
 		type: Number,
+		required: true,
 	},
 	referrer: {
+		type: String,
+	},
+	referralCode: {
 		type: String,
 	},
     photo: {
