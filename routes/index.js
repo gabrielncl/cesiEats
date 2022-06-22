@@ -15,7 +15,7 @@ mongoose
 		useUnifiedTopology: true,
 		dbName: "cesieats",
 	})
-	.then(() => console.log("Connexion à MongoDB Commune réussie !"))
-	.catch(() => console.log("Connexion à MongoDB Commune échouée !"));
+	.then(() => console.log("Connexion à MongoDB réussie !"))
+	.catch(() => console.log("Connexion à MongoDB échouée !"));
 
 module.exports = router;

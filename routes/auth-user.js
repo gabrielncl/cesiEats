@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/User");
+const Order = require("../models/Order");
 
 const {
 	handleNewUser,
@@ -38,7 +39,7 @@ router.post("/order/create", checkJWT, async (req, res, next) => {
 
 // Test security middleware
 router.get("/", checkJWT, async (req, res, next) => {
-	const users = await User.find();
+	const orders = await Order.find();
 	res.send(users);
 });
 
