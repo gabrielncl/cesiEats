@@ -2,16 +2,27 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
-    wichuser: {
-        type: String,
+    user_id: {
+        type: Number,
+        unique: true,
     },
-    article: {
-        type: Array,
-        default:[]
-    },
+    description: {
+		type: String,
+	},
     totalprice:{
         type: Number,
     },
+    deliveryAdress:{
+        type: String,
+    },
+    article_id: {
+        type: Array,
+        default:[],
+    },
+    menu_id: {
+		type: Array,
+        default:[],
+	},
     createdAt: {
         type: Date,
         default: Date.now

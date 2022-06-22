@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const delivererSchema = Schema({
 	firstname: {
 		type: String,
+		required: true,
 	},
 	lastname: {
 		type: String,
@@ -11,6 +12,7 @@ const delivererSchema = Schema({
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	password: {
 		type: String,

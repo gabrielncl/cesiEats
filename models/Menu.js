@@ -10,19 +10,19 @@ const menuSchema = Schema({
 		type: String,
 	},
 	price: {
-		type: String,
+		type: Number,
 		required: true,
 	},
 	photo: {
 		type: String,
 	},
-	restaurantName: {
-		type: String,
-		required: true,
+	restaurant_id: {
+		type: Number,
+		unique: true,
 	},
-    articleName: {
-		type: String,
-		required: true,
+    article_id: {
+		type: Array,
+		default:[],
 	},
 	//refreshToken: String,
 });

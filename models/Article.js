@@ -10,22 +10,20 @@ const articleSchema = Schema({
 		type: String,
 	},
 	price: {
-		type: String,
-		required: true,
-	},
-	quantity: {
 		type: Number,
+		required: true,
 	},
 	photo: {
 		type: String,
 	},
-	category: {
-		type: String,
+	category_id: {
+		type: Number,
 		required: true,
 	},
-	restaurantName:{
-		type: String,
-		required: true
+	restaurant_id:{
+		type: Number,
+		required: true,
+		unique: true,
 	}
 	//refreshToken: String,
 });

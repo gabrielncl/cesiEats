@@ -30,6 +30,11 @@ const userSchema = Schema({
 	referrer: {
 		type: String,
 	},
+	order_id: {
+		type: Array,
+		default: [],
+	},
+
 });
 
 module.exports = mongoose.model("User", userSchema);
