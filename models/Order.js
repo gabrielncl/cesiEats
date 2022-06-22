@@ -13,9 +13,8 @@ const orderSchema = Schema({
         type: Number,
         required: true
     },
-    deliveryAdress:{
+    deliveryAddress:{
         type: String,
-        required: true
     },
     article_id: {
         type: Array,
@@ -28,7 +27,6 @@ const orderSchema = Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        required: true
     },
 })
 module.exports = mongoose.model('Order', orderSchema)

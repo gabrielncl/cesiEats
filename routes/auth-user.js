@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../models/User");
 const Order = require("../models/Order");
 
 const {
@@ -11,7 +10,7 @@ const {
 } = require("../controllers/UserController");
 
 const { checkJWT, returnUserFromJwt } = require("../modules/jwt");
-const { handleNewOrder } = require("../controllers/OrderController");
+const { handleNewOrder, getOrders } = require("../controllers/OrderController");
 
 router.get("/profile", checkJWT, async (req, res) => {
 	res.send(returnUserFromJwt(req, res));
@@ -35,6 +34,10 @@ router.put("/update/:id", async (req, res, next) => {
 
 router.post("/order/create", checkJWT, async (req, res, next) => {
 	handleNewOrder(req, res);
+});
+
+router.get("/orders", checkJWT, async (req, res, next) => {
+	getOrders(req, res);
 });
 
 // Test security middleware
