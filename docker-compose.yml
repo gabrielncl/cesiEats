@@ -1,0 +1,44 @@
+version: "3"
+services:
+  api-server:
+    image: node:16
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    labels:
+      traefik.frontend.rule: "Host: api.cesieats.loc;"
+      traefik.port: "8000"
+    depends_on:
+      - mongo
+    command: npm run start
+  client-vue:
+    image: node:16
+    labels:
+      traefik.frontend.rule: "Host: user.cesieats.loc;"
+      traefik.port: "8080"
+    command: npm run serve
+    working_dir: /var/www/user
+    volumes:
+      - ../cesieats_front/user:/var/www/user
+  traefik:
+    image: traefik:1.6@sha256:eabb39016917bd43e738fb8bada87be076d4553b5617037922b187c0a656f4a4
+    restart: always
+    command:
+      - --api
+      - --docker
+      - --docker.watch
+      - --logLevel=INFO
+      - --web
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  mongo:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
+    driver: local
