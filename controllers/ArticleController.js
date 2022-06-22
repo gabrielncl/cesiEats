@@ -1,5 +1,4 @@
 const Article = require("../models/Article");
-const bcrypt = require("bcrypt");
 
 
 // ARTICLE 

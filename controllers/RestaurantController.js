@@ -1,7 +1,7 @@
 const Restaurant = require("../models/Restaurant");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const token = require("../modules/jwt");
 
 // AUTHENTIFICATION
@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
 	if (!restaurant) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, restaurant.password);
+		const isValidPassword = await bcryptjs.compare(password, restaurant.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
@@ -47,9 +47,17 @@ const handleLogin = async (req, res) => {
 
 const deleteRestaurant = async (req, res) => {
 	const deletedRestaurant = await Restaurant.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Restaurant Deleted", data: { status: "success", restaurant: deletedRestaurant } });
+	if (!deletedRestaurant) {
+		res.status(401).json({
+			message: "Restaurant doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Restaurant Deleted",
+			data: { status: "success", user: deletedRestaurant },
+		});
+	}
 };
 
 const updateRestaurant = async (req, res) => {

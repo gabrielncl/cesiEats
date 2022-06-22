@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
@@ -40,7 +40,7 @@ const handleLogin = async (req, res) => {
 	if (!user) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, user.password);
+		const isValidPassword = await bcryptjs.compare(password, user.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
@@ -61,15 +61,27 @@ const handleLogin = async (req, res) => {
 
 const deleteUser = async (req, res) => {
 	const deletedUser = await User.findByIdAndDelete(req.params.id);
-	res.status(200).json({
-		message: "User Deleted",
-		data: { status: "success", user: deletedUser },
-	});
+	if (!deletedUser) {
+		res.status(401).json({
+			message: "User doesn't exist",
+			data:{ status: "error"}
+		}); 
+	/*} if (deletedUser.length != 24 ) {
+		res.status(401).json({
+			message: "User doesn't exist",
+			data:{ status: "error"}
+		}); */
+	} else {
+		res.status(200).json({
+			message: "User Deleted",
+			data: { status: "success", user: deletedUser },
+		});
+	}
 };
 
 const updateUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone } = req.body;
-	const user = await User.findByIdAndUpdate(req.params.id, {
+	const updateUser = await User.findByIdAndUpdate(req.params.id, {
 		firstname,
 		lastname,
 		address,
@@ -77,9 +89,17 @@ const updateUser = async (req, res) => {
 		phone,
 		password: await handlePassword(req, res),
 	});
-	res
-		.status(200)
-		.json({ message: "User Updated", data: { status: "success", user: user } });
+	if (!updateUser) {
+		res.status(401).json({
+			message: "User doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
+			message: "User Updated",
+			data: { status: "success", user: updateUser },
+		});
+	}
 };
 
 module.exports = {

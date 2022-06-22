@@ -1,7 +1,7 @@
 const Deliverer = require("../models/Deliverer");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewDeliverer = async (req, res) => {
@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
 	if (!deliverer) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcrypt.compare(password, deliverer.password);
+		const isValidPassword = await bcryptjs.compare(password, deliverer.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
@@ -47,12 +47,17 @@ const handleLogin = async (req, res) => {
 
 const deleteDeliverer = async (req, res) => {
 	const deletedDeliverer = await Deliverer.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({
+	if (!deletedDeliverer) {
+		res.status(401).json({
+			message: "Deliverer doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
 			message: "Deliverer Deleted",
-			data: { status: "success", deliverer: deletedDeliverer },
+			data: { status: "success", user: deletedDeliverer },
 		});
+	}
 };
 
 const updateDeliverer = async (req, res) => {

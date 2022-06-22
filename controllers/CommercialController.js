@@ -1,6 +1,6 @@
 const Commercial = require("../models/Commercial");
 const handlePassword = require("../modules/hashPassword");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 
 const handleNewCommercial = async (req, res) => {
 	const { email } =
@@ -24,7 +24,7 @@ const handleLogin = async(req,res) => {
 	if (!com){
 		res.status(401).send("Invalid email or password");
 	}else{
-		const isValidPassword = await bcrypt.compare(password, com.password);
+		const isValidPassword = await bcryptjs.compare(password, com.password);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
@@ -39,9 +39,17 @@ const handleLogin = async(req,res) => {
 
 const deleteCommercial = async (req, res) => {
 	const deletedCom = await Commercial.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Commercial Deleted", data: { status: "success", com: deletedCom} });
+	if (!deletedCom) {
+		res.status(401).json({
+			message: "Commercial doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Commercial Deleted",
+			data: { status: "success", user: deletedCom },
+		});
+	}
 };
 
 const updateCommercial = async (req, res) => {
