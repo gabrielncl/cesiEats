@@ -1,30 +1,34 @@
 const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
-const referrer = require("../modules/referrer");
+const referralCode = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
 const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewUser = async (req, res) => {
-	const { firstname, lastname, address, email, phone } = req.body;
+	const { firstname, lastname, address, email, phone, referrer } = req.body;
 
-	const newUser = new User({
+	const test = {
 		firstname,
 		lastname,
 		address,
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer,
-	});
+		referralCode,
+		referrer: ((await User.find({ referralCode: referrer }))[0] || {})._id,
+	};
+
+	console.log(test);
+
+	const newUser = new User(test);
 
 	await newUser.save((err, newUser) => {
 		if (err) {
-			res
-				.status(500)
-				.json({
-					message: "User already exists",
-					data: { status: "error", error: err },
-				});
+			console.error(err);
+			res.status(500).json({
+				message: "User already exists",
+				data: { status: "error", error: err },
+			});
 		} else {
 			res.status(200).json({
 				message: "User Created",
@@ -48,7 +52,7 @@ const handleLogin = async (req, res) => {
 			res
 				.cookie("token", token, {
 					httpOnly: true,
-					maxAge: 1000,
+					maxAge: 1000 * 60 * 60,
 				})
 				.status(200)
 				.json({
