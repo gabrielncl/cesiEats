@@ -6,7 +6,7 @@ const handleNewOrder = async (req, res) => {
 		req.body;
 
 	const newOrder = new Order({
-		user_id : returnUserFromJwt(req, res),
+		user_id: returnUserFromJwt(req, res),
 		description,
 		totalprice,
 		deliveryAdress,
@@ -20,4 +20,14 @@ const handleNewOrder = async (req, res) => {
 	});
 };
 
-module.exports = { handleNewOrder };
+const getOrders = async (req, res) => {
+	const user = returnUserFromJwt(req, res);
+	console.log(user);
+	const orders = (await Order.find({ user_id: user }));
+	res.status(200).json({
+		message: "Orders Fetched",
+		data: { status: "success", orders },
+	});
+};
+
+module.exports = { handleNewOrder, getOrders };
