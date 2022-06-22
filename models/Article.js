@@ -13,6 +13,9 @@ const articleSchema = Schema({
 		type: String,
 		required: true,
 	},
+	quantity: {
+		type: Number,
+	},
 	photo: {
 		type: String,
 	},
