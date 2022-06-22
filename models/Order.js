@@ -4,15 +4,18 @@ const Schema = mongoose.Schema;
 const orderSchema = Schema({
     user_id: {
         type: String,
+        required: true
     },
     description: {
 		type: String,
 	},
     totalprice:{
         type: Number,
+        required: true
     },
     deliveryAdress:{
         type: String,
+        required: true
     },
     article_id: {
         type: Array,
@@ -24,7 +27,8 @@ const orderSchema = Schema({
 	},
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        required: true
     },
 })
 module.exports = mongoose.model('Order', orderSchema)
