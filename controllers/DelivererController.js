@@ -1,11 +1,12 @@
 const Deliverer = require("../models/Deliverer");
 const handlePassword = require("../modules/hashPassword");
-const referrer = require("../modules/referralCode");
+const referralCode = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
 const token = require("../modules/jwt");
 
 const handleNewDeliverer = async (req, res) => {
-	const { firstname, lastname, address, email, phone, photo } = req.body;
+	const { firstname, lastname, address, email, phone, photo, referrer } =
+		req.body;
 
 	const newDeliverer = new Deliverer({
 		firstname,
@@ -14,8 +15,9 @@ const handleNewDeliverer = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer,
-        photo,
+		referralCode,
+		referrer: ((await Deliverer.find({ referralCode: referrer }))[0] || {})._id,
+		photo,
 	});
 
 	await newDeliverer.save();
@@ -48,7 +50,10 @@ const deleteDeliverer = async (req, res) => {
 	const deletedDeliverer = await Deliverer.findByIdAndDelete(req.params.id);
 	res
 		.status(200)
-		.json({ message: "Deliverer Deleted", data: { status: "success", deliverer: deletedDeliverer } });
+		.json({
+			message: "Deliverer Deleted",
+			data: { status: "success", deliverer: deletedDeliverer },
+		});
 };
 
 const updateDeliverer = async (req, res) => {
@@ -59,11 +64,14 @@ const updateDeliverer = async (req, res) => {
 		email,
 		phone,
 		password: await handlePassword(req, res),
-        photo,
+		photo,
 	});
 	res
 		.status(200)
-		.json({ message: "Deliverer Updated", data: { status: "success", deliverer: deliverer } });
+		.json({
+			message: "Deliverer Updated",
+			data: { status: "success", deliverer: deliverer },
+		});
 };
 
 module.exports = {
