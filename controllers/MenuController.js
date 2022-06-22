@@ -1,5 +1,4 @@
 const Menu = require("../models/Menu");
-const bcrypt = require("bcrypt");
 
 
 // ARTICLE 
