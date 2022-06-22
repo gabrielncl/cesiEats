@@ -2,11 +2,10 @@ const Deliverer = require("../models/Deliverer");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
-const token = require("../modules/jwt");
+const { createJWT, checkJWT } = require("../modules/jwt");
 
 const handleNewDeliverer = async (req, res) => {
-	const { firstname, lastname, address, email, phone, photo, referrer } =
-		req.body;
+	const { firstname, lastname, address, email, phone, photo, referrer } = req.body;
 
 	const newDeliverer = new Deliverer({
 		firstname,
@@ -15,9 +14,9 @@ const handleNewDeliverer = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referralCode,
 		referrer: ((await Deliverer.find({ referralCode: referrer }))[0] || {})._id,
-		photo,
+		referralCode,
+        photo,
 	});
 
 	await newDeliverer.save();

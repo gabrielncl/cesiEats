@@ -17,6 +17,8 @@ var devsRouter = require('./routes/auth-dev');
 var techsRouter = require('./routes/auth-tech');
 var commercialsRouter = require('./routes/auth-com');
 var deliverersRouter = require('./routes/auth-deliverer');
+var restaurantsRouter = require('./routes/auth-restaurant');
+// var articlesRouter = require('./routes/auth-restaurant');
 // var shop = require('./routes/shop');
 
 
@@ -38,6 +40,8 @@ app.use('/devs', devsRouter);
 app.use('/techs', techsRouter);
 app.use('/commercials', commercialsRouter);
 app.use('/deliv', deliverersRouter);
+app.use('/restaurants', restaurantsRouter);
+// app.use('/articles', articlesRouter);
 // app.use('/shop', shop);
 
 // catch 404 and forward to error handler
