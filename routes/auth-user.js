@@ -39,7 +39,7 @@ router.post("/order/create", checkJWT, async (req, res, next) => {
 
 // Test security middleware
 router.get("/", checkJWT, async (req, res, next) => {
-	const orders = await Order.find();
+	const users = await User.find();
 	res.send(users);
 });
 
