@@ -40,9 +40,17 @@ const handleLogin = async (req, res) => {
 
 const deleteDeveloper = async (req, res) => {
 	const deletedDev = await Developer.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Developer Deleted", data: { status: "success", dev: deletedDev } });
+	if (!deletedDev) {
+		res.status(401).json({
+			message: "Developer doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Developer Deleted",
+			data: { status: "success", user: deletedDev },
+		});
+	}
 };
 
 const updateDeveloper = async (req, res) => {

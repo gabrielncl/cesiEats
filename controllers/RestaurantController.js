@@ -47,9 +47,17 @@ const handleLogin = async (req, res) => {
 
 const deleteRestaurant = async (req, res) => {
 	const deletedRestaurant = await Restaurant.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Restaurant Deleted", data: { status: "success", restaurant: deletedRestaurant } });
+	if (!deletedRestaurant) {
+		res.status(401).json({
+			message: "Restaurant doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Restaurant Deleted",
+			data: { status: "success", user: deletedRestaurant },
+		});
+	}
 };
 
 const updateRestaurant = async (req, res) => {

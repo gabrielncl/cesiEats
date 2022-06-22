@@ -47,12 +47,17 @@ const handleLogin = async (req, res) => {
 
 const deleteDeliverer = async (req, res) => {
 	const deletedDeliverer = await Deliverer.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({
+	if (!deletedDeliverer) {
+		res.status(401).json({
+			message: "Deliverer doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
 			message: "Deliverer Deleted",
-			data: { status: "success", deliverer: deletedDeliverer },
+			data: { status: "success", user: deletedDeliverer },
 		});
+	}
 };
 
 const updateDeliverer = async (req, res) => {

@@ -40,9 +40,17 @@ const handleLogin = async (req, res) => {
 
 const deleteTechnician = async (req, res) => {
 	const deletedTechnician = await Technician.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Technician Deleted", data: { status: "success", tech: deletedTechnician } });
+	if (!deletedTechnician) {
+		res.status(401).json({
+			message: "Technician doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Technician Deleted",
+			data: { status: "success", user: deletedTechnician },
+		});
+	}
 };
 
 const updateTechnician = async (req, res) => {

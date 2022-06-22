@@ -39,9 +39,17 @@ const handleLogin = async(req,res) => {
 
 const deleteCommercial = async (req, res) => {
 	const deletedCom = await Commercial.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Commercial Deleted", data: { status: "success", com: deletedCom} });
+	if (!deletedCom) {
+		res.status(401).json({
+			message: "Commercial doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Commercial Deleted",
+			data: { status: "success", user: deletedCom },
+		});
+	}
 };
 
 const updateCommercial = async (req, res) => {
