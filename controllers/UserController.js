@@ -7,7 +7,7 @@ const { createJWT, checkJWT } = require("../modules/jwt");
 const handleNewUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone, referrer } = req.body;
 
-	const test = {
+	const newUser = new User({
 		firstname,
 		lastname,
 		address,
@@ -16,11 +16,7 @@ const handleNewUser = async (req, res) => {
 		phone,
 		referralCode,
 		referrer: ((await User.find({ referralCode: referrer }))[0] || {})._id,
-	};
-
-	console.log(test);
-
-	const newUser = new User(test);
+	});
 
 	await newUser.save((err, newUser) => {
 		if (err) {

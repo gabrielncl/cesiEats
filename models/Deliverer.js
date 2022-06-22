@@ -4,13 +4,16 @@ const Schema = mongoose.Schema;
 const delivererSchema = Schema({
 	firstname: {
 		type: String,
+		required: true,
 	},
 	lastname: {
 		type: String,
+		required: true,
 	},
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	password: {
 		type: String,
@@ -18,8 +21,12 @@ const delivererSchema = Schema({
 	},
 	phone: {
 		type: Number,
+		required: true,
 	},
 	referrer: {
+		type: String,
+	},
+	referralCode: {
 		type: String,
 	},
     photo: {
