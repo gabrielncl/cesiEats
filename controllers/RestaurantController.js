@@ -1,12 +1,12 @@
 const Restaurant = require("../models/Restaurant");
 const handlePassword = require("../modules/hashPassword");
-const referrer = require("../modules/referralCode");
+const referralCode = require("../modules/referralCode");
 const bcrypt = require("bcrypt");
 const token = require("../modules/jwt");
 
 // AUTHENTIFICATION
 const handleNewRestaurant = async (req, res) => {
-	const { name, address, email, phone, logo } = req.body;
+	const { name, address, email, phone, logo, referrer } = req.body;
 
 	const newRestaurant = new Restaurant({
 		name,
@@ -14,8 +14,9 @@ const handleNewRestaurant = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer,
         logo,
+		referralCode,
+		referrer: ((await Restaurant.find({ referralCode: referrer }))[0] || {})._id,
 	});
 
 	await newRestaurant.save();

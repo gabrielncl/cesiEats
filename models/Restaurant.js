@@ -4,13 +4,16 @@ const Schema = mongoose.Schema;
 const restaurantSchema = Schema({
 	name: {
 		type: String,
+		required: true,
 	},
 	address: {
 		type: String,
+		required: true,
 	},
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	password: {
 		type: String,
@@ -18,17 +21,18 @@ const restaurantSchema = Schema({
 	},
 	phone: {
 		type: Number,
+		required: true,
+		unique: true,
 	},
 	referrer: {
+		type: String,
+	},
+	referralCode: {
 		type: String,
 	},
     logo: {
 		type: String,
 	},
-    category: {
-		type: String,
-	},
-	//refreshToken: String,
 });
 
 module.exports = mongoose.model("Restaurant", restaurantSchema);
