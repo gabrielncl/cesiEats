@@ -12,11 +12,19 @@ const handleNewDeveloper = async (req, res) => {
 		password: await handlePassword(req, res),
 	});
 
-	await newDev.save();
-	res.status(200).json({
-		message: "Developer Created",
-		data: { status: "success", dev: newDev },
-	});
+	await newDev.save((err, newDev));
+	if (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "Developer already exists",
+			data: { status: "error", error: err },
+		});
+	} else {
+		res.status(200).json({
+			message: "Developer Created",
+			data: { status: "success", user: newDev },
+		});
+	}
 };
 
 const handleLogin = async (req, res) => {
@@ -55,13 +63,21 @@ const deleteDeveloper = async (req, res) => {
 
 const updateDeveloper = async (req, res) => {
 	const { email } = req.body;
-	const dev = await Developer.findByIdAndUpdate(req.params.id, {
+	const updateDev = await Developer.findByIdAndUpdate(req.params.id, {
 		email,
 		password: await handlePassword(req, res),
 	});
-	res
-		.status(200)
-		.json({ message: "Developer Updated", data: { status: "success", dev: dev } });
+	if (!updateDev) {
+		res.status(401).json({
+			message: "Developer doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
+			message: "Developer Updated",
+			data: { status: "success", user: updateDev },
+		});
+	}
 };
 
 module.exports = {

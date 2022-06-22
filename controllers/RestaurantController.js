@@ -19,11 +19,19 @@ const handleNewRestaurant = async (req, res) => {
 		referrer: ((await Restaurant.find({ referralCode: referrer }))[0] || {})._id,
 	});
 
-	await newRestaurant.save();
-	res.status(200).json({
-		message: "Restaurant Created",
-		data: { status: "success", restaurant: newRestaurant },
-	});
+	await newRestaurant.save((err, newRestaurant));
+	if (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "Restaurant already exists",
+			data: { status: "error", error: err },
+		});
+	} else {
+		res.status(200).json({
+			message: "Restaurant Created",
+			data: { status: "success", user: newRestaurant },
+		});
+	}
 };
 
 const handleLogin = async (req, res) => {
@@ -62,7 +70,7 @@ const deleteRestaurant = async (req, res) => {
 
 const updateRestaurant = async (req, res) => {
 	const { name, address, email, phone, logo } = req.body;
-	const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, {
+	const updateRestaurant = await Restaurant.findByIdAndUpdate(req.params.id, {
 		name,
 		address,
 		email,
@@ -71,9 +79,17 @@ const updateRestaurant = async (req, res) => {
 		referrer,
         logo,
 	});
-	res
-		.status(200)
-		.json({ message: "Restaurant Updated", data: { status: "success", restaurant: restaurant } });
+	if (!updateRestaurant) {
+		res.status(401).json({
+			message: "Restaurant doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
+			message: "Restaurant Updated",
+			data: { status: "success", user: updateRestaurant },
+		});
+	}
 };
 
 module.exports = {
