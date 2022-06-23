@@ -21,6 +21,8 @@ const {
 	updateRestaurant,
 } = require("../controllers/RestaurantController");
 
+const { handleNewDelivery, getDelivery } = require("../controllers/DeliveryController");
+
 // RESTAURANT
 router.get("/get", async (req, res) => {
 	const posts = await Restaurant.find();
@@ -44,29 +46,39 @@ router.put("/update/:id", async (req, res) => {
 });
 
 // ARTICLE
-router.post("/create/article", async (req, res) => {
+router.post("/article/create", async (req, res) => {
 	handleNewArticle(req, res);
 });
 
-router.put("/edit/article/:id", async (req, res) => {
+router.put("/article/edit/:id", async (req, res) => {
 	updateArticle(req, res);
 });
 
-router.delete("/delete/article/:id", async (req, res) => {
+router.delete("/article/delete/:id", async (req, res) => {
 	deleteArticle(req, res);
 });
 
 //MENU
-router.post("/create/menu", async (req, res) => {
+router.post("/menu/create", async (req, res) => {
 	handleNewMenu(req, res);
 });
 
-router.put("/edit/menu/:id", async (req, res) => {
+router.put("/menu/edit/:id", async (req, res) => {
 	updateMenu(req, res);
 });
 
-router.delete("/delete/menu/:id", async (req, res) => {
+router.delete("/menu/delete/:id", async (req, res) => {
 	deleteMenu(req, res);
 });
+
+//DELIVERY
+router.get("/delivery/create", async (req, res, next) => {
+	getDelivery(req, res);
+});
+
+router.get("/delivery", async (req, res, next) => {
+	handleNewDelivery(req, res);
+});
+
 
 module.exports = router;

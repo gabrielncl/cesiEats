@@ -19,11 +19,19 @@ const handleNewDeliverer = async (req, res) => {
         photo,
 	});
 
-	await newDeliverer.save();
-	res.status(200).json({
-		message: "Deliverer Created",
-		data: { status: "success", deliverer: newDeliverer },
-	});
+	await newDeliverer.save((err, newDeliverer));
+	if (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "Deliverer already exists",
+			data: { status: "error", error: err },
+		});
+	} else {
+		res.status(200).json({
+			message: "Deliverer Created",
+			data: { status: "success", user: newDeliverer },
+		});
+	}
 };
 
 const handleLogin = async (req, res) => {
@@ -47,17 +55,22 @@ const handleLogin = async (req, res) => {
 
 const deleteDeliverer = async (req, res) => {
 	const deletedDeliverer = await Deliverer.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({
+	if (!deletedDeliverer) {
+		res.status(401).json({
+			message: "Deliverer doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
 			message: "Deliverer Deleted",
-			data: { status: "success", deliverer: deletedDeliverer },
+			data: { status: "success", user: deletedDeliverer },
 		});
+	}
 };
 
 const updateDeliverer = async (req, res) => {
 	const { firstname, lastname, photo, email, phone } = req.body;
-	const deliverer = await Deliverer.findByIdAndUpdate(req.params.id, {
+	const updateDeliverer = await Deliverer.findByIdAndUpdate(req.params.id, {
 		firstname,
 		lastname,
 		email,
@@ -65,12 +78,17 @@ const updateDeliverer = async (req, res) => {
 		password: await handlePassword(req, res),
 		photo,
 	});
-	res
-		.status(200)
-		.json({
+	if (!updateDeliverer) {
+		res.status(401).json({
+			message: "Deliverer doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
 			message: "Deliverer Updated",
-			data: { status: "success", deliverer: deliverer },
+			data: { status: "success", user: updateDeliverer },
 		});
+	}
 };
 
 module.exports = {
