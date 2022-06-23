@@ -6,6 +6,10 @@ const orderSchema = Schema({
         type: String,
         required: true
     },
+    restaurant_id: {
+        type: String,
+        required: true
+    },
     description: {
 		type: String,
 	},
@@ -15,6 +19,7 @@ const orderSchema = Schema({
     },
     deliveryAddress:{
         type: String,
+        required: true
     },
     article_id: {
         type: Array,
