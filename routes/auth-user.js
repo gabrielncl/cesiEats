@@ -11,7 +11,9 @@ const {
 
 const { checkJWT, returnUserFromJwt } = require("../modules/jwt");
 const { handleNewOrder, getOrders } = require("../controllers/OrderController");
+const { handleNewDelivery, getDelivery } = require("../controllers/DeliveryController");
 
+//USER
 router.get("/profile", checkJWT, async (req, res) => {
 	res.send(returnUserFromJwt(req, res));
 });
@@ -32,6 +34,7 @@ router.put("/update/:id", async (req, res, next) => {
 	updateUser(req, res);
 });
 
+//ORDER
 router.post("/order/create", checkJWT, async (req, res, next) => {
 	handleNewOrder(req, res);
 });
@@ -40,10 +43,24 @@ router.get("/orders", checkJWT, async (req, res, next) => {
 	getOrders(req, res);
 });
 
+//DELIVERY
+router.get("/delivery/create", async (req, res, next) => {
+	getDelivery(req, res);
+});
+
+router.get("/delivery", async (req, res, next) => {
+	handleNewDelivery(req, res);
+});
+
 // Test security middleware
 router.get("/", checkJWT, async (req, res, next) => {
 	const users = await User.find();
 	res.send(users);
 });
+
+
+
+
+
 
 module.exports = router;
