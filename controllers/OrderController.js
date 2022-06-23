@@ -13,10 +13,19 @@ const handleNewOrder = async (req, res) => {
 		article_id,
 		menu_id,
 	});
-	await newOrder.save();
-	res.status(200).json({
-		message: "Order Created",
-		data: { status: "success", order: newOrder },
+	await newOrder.save((err, newOrder) => {
+		if (err) {
+			console.error(err);
+			res.status(500).json({
+				message: "Order already exists",
+				data: { status: "error", error: err },
+			});
+		} else {
+			res.status(200).json({
+				message: "Order Created",
+				data: { status: "success", order: newOrder },
+			});
+		}
 	});
 };
 
