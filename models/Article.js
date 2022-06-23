@@ -21,11 +21,9 @@ const articleSchema = Schema({
 		required: true,
 	},
 	restaurant_id:{
-		type: Number,
+		type: String,
 		required: true,
-		unique: true,
 	}
-	//refreshToken: String,
 });
 
 module.exports = mongoose.model("Article", articleSchema);

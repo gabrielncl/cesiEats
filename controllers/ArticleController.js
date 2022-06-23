@@ -1,17 +1,17 @@
 const Article = require("../models/Article");
 
-
-// ARTICLE 
+// ARTICLE
 const handleNewArticle = async (req, res) => {
-	const { name, description, price, photo, category, restaurantName} = req.body;
+	const { name, description, price, photo, category_id, restaurant_id } =
+		req.body;
 
 	const newArticle = new Article({
 		name,
 		description,
 		price,
 		photo,
-		category,
-		restaurantName,
+		category_id,
+		restaurant_id,
 	});
 
 	await newArticle.save();
@@ -25,11 +25,15 @@ const deleteArticle = async (req, res) => {
 	const deletedArticle = await Article.findByIdAndDelete(req.params.id);
 	res
 		.status(200)
-		.json({ message: "Article Deleted", data: { status: "success", article: deleteArticle } });
+		.json({
+			message: "Article Deleted",
+			data: { status: "success", article: deletedArticle },
+		});
 };
 
 const updateArticle = async (req, res) => {
-	const { name, price, photo, description, category, restaurantName } = req.body;
+	const { name, price, photo, description, category, restaurantName } =
+		req.body;
 	const article = await Article.findByIdAndUpdate(req.params.id, {
 		name,
 		price,
@@ -40,11 +44,23 @@ const updateArticle = async (req, res) => {
 	});
 	res
 		.status(200)
-		.json({ message: "Article Updated", data: { status: "success", article: article } });
+		.json({
+			message: "Article Updated",
+			data: { status: "success", article: article },
+		});
+};
+
+getArticle = async (req, res) => {
+	const article = await Article.findById(req.params.id);
+	res.status(200).json({
+		message: "Article Fetched",
+		data: { status: "success", article },
+	});
 };
 
 module.exports = {
-    handleNewArticle,
-    updateArticle,
-    deleteArticle
+	handleNewArticle,
+	updateArticle,
+	deleteArticle,
+	getArticle
 };
