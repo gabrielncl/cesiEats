@@ -11,10 +11,19 @@ const handleNewTechnician = async (req, res) => {
 		password: await handlePassword(req, res),
 	});
 
-	await newTechnician.save();
-	res.status(200).json({
-		message: "Technician Created",
-		data: { status: "success", tech: newTechnician },
+	await newTechnician.save((err, newTechnician) => {
+		if (err) {
+			console.error(err);
+			res.status(500).json({
+				message: "Technician already exists",
+				data: { status: "error", error: err },
+			});
+		} else {
+			res.status(200).json({
+				message: "Technician Created",
+				data: { status: "success", user: newTechnician },
+			});
+		}
 	});
 };
 
@@ -39,20 +48,36 @@ const handleLogin = async (req, res) => {
 
 const deleteTechnician = async (req, res) => {
 	const deletedTechnician = await Technician.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Technician Deleted", data: { status: "success", tech: deletedTechnician } });
+	if (!deletedTechnician) {
+		res.status(401).json({
+			message: "Technician doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Technician Deleted",
+			data: { status: "success", user: deletedTechnician },
+		});
+	}
 };
 
 const updateTechnician = async (req, res) => {
 	const { email } = req.body;
-	const tech = await Technician.findByIdAndUpdate(req.params.id, {
+	const updateTech = await Technician.findByIdAndUpdate(req.params.id, {
 		email,
 		password: await handlePassword(req, res),
 	});
-	res
-		.status(200)
-		.json({ message: "Technician Updated", data: { status: "success", tech: tech } });
+	if (!updateTech) {
+		res.status(401).json({
+			message: "Technician doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
+			message: "Technician Updated",
+			data: { status: "success", user: updateTech },
+		});
+	}
 };
 
 module.exports = {

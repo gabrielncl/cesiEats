@@ -29,6 +29,9 @@ const orderSchema = Schema({
 		type: Array,
         default:[],
 	},
+    confirmOrder:{
+        type: Boolean,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

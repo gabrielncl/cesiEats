@@ -11,11 +11,19 @@ const handleNewCommercial = async (req, res) => {
 		password: await handlePassword(req, res),
 	});
 
-	await newCommercial.save();
-	res.status(200).json({
-		message: "User Created",
-		data: { status: "success", com: newCommercial},
-	});
+	await newCommercial.save(err, newCommercial);
+	if (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "Commercial already exists",
+			data: { status: "error", error: err },
+		});
+	} else {
+		res.status(200).json({
+			message: "Commercial Created",
+			data: { status: "success", user: newCommercial },
+		});
+	}
 };
 
 const handleLogin = async(req,res) => {
@@ -39,20 +47,36 @@ const handleLogin = async(req,res) => {
 
 const deleteCommercial = async (req, res) => {
 	const deletedCom = await Commercial.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({ message: "Commercial Deleted", data: { status: "success", com: deletedCom} });
+	if (!deletedCom) {
+		res.status(401).json({
+			message: "Commercial doesn't exist",
+			data:{ status: "error"}
+		}); 
+	} else {
+		res.status(200).json({
+			message: "Commercial Deleted",
+			data: { status: "success", user: deletedCom },
+		});
+	}
 };
 
 const updateCommercial = async (req, res) => {
 	const { email } = req.body;
-	const com = await Commercial.findByIdAndUpdate(req.params.id, {
+	const updateCom = await Commercial.findByIdAndUpdate(req.params.id, {
 		email,
 		password: await handlePassword(req, res),
 	});
-	res
-		.status(200)
-		.json({ message: "Commercial Updated", data: { status: "success", com: com } });
+	if (!updateCom) {
+		res.status(401).json({
+			message: "Commercial doesn't exist",
+			data:{ status: "error"}
+		});  
+	} else {
+		res.status(200).json({
+			message: "Commercial Updated",
+			data: { status: "success", user: updateCom },
+		});
+	}
 };
 
 
