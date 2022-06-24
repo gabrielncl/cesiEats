@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const Order = require("../models/Order");
 
 const {
 	handleNewUser,
@@ -24,11 +23,11 @@ router.post("/register", async (req, res, next) => {
 	handleNewUser(req, res);
 });
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", checkJWT, async (req, res, next) => {
 	deleteUser(req, res);
 });
 
-router.put("/update/:id", async (req, res, next) => {
+router.put("/update/:id", checkJWT, async (req, res, next) => {
 	updateUser(req, res);
 });
 
@@ -38,12 +37,6 @@ router.post("/order/create", checkJWT, async (req, res, next) => {
 
 router.get("/orders", checkJWT, async (req, res, next) => {
 	getOrders(req, res);
-});
-
-// Test security middleware
-router.get("/", checkJWT, async (req, res, next) => {
-	const orders = await Order.find();
-	res.send(users);
 });
 
 module.exports = router;
