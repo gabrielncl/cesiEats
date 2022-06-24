@@ -24,47 +24,47 @@ services:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: tech.cesieats.loc;"
-      traefik.port: "8081"
+      traefik.port: "8080"
     command: npm run serve
     working_dir: /var/www/tech
     volumes:
-      - ../cesieats_front/user:/var/www/tech
+      - ../cesieats_front/tech:/var/www/tech
   restaurant-vue:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: restaurant.cesieats.loc;"
-      traefik.port: "8082"
+      traefik.port: "8080"
     command: npm run serve
     working_dir: /var/www/restaurant
     volumes:
-      - ../cesieats_front/user:/var/www/restaurant
+      - ../cesieats_front/restaurant:/var/www/restaurant
   deliverer-vue:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: deliverer.cesieats.loc;"
-      traefik.port: "8083"
+      traefik.port: "8080"
     command: npm run serve
     working_dir: /var/www/deliverer
     volumes:
-      - ../cesieats_front/user:/var/www/deliverer
+      - ../cesieats_front/deliverer:/var/www/deliverer
   dev-vue:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: dev.cesieats.loc;"
-      traefik.port: "8084"
+      traefik.port: "8080"
     command: npm run serve
     working_dir: /var/www/dev
     volumes:
-      - ../cesieats_front/user:/var/www/dev
+      - ../cesieats_front/dev:/var/www/dev
   com-vue:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: com.cesieats.loc;"
-      traefik.port: "8085"
+      traefik.port: "8080"
     command: npm run serve
     working_dir: /var/www/com
     volumes:
-      - ../cesieats_front/user:/var/www/com
+      - ../cesieats_front/com:/var/www/com
   traefik:
     image: traefik:1.6@sha256:eabb39016917bd43e738fb8bada87be076d4553b5617037922b187c0a656f4a4
     restart: always
