@@ -31,11 +31,18 @@ const handleNewOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
 	const user = returnUserFromJwt(req, res);
-	console.log(user);
 	const orders = await Order.find({ user_id: user });
 	res.status(200).json({
 		message: "Orders Fetched",
 		data: { status: "success", orders },
+	});
+}
+const getOrder = async (req, res) => {
+	const id = req.params.id;
+	const order = await Order.findById(id);
+	res.status(200).json({
+		message: "Order Fetched",
+		data: { status: "success", order },
 	});
 };
 
@@ -49,4 +56,4 @@ const getOrders = async (req, res) => {
 	});
 };*/
 
-module.exports = { handleNewOrder, getOrders };
+module.exports = { handleNewOrder, getOrders, getOrder };
