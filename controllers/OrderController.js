@@ -12,6 +12,7 @@ const handleNewOrder = async (req, res) => {
 		deliveryAddress,
 		article_id: cart.article_id,
 		menu_id: cart.menu_id,
+		restaurant_id: cart.restaurant_id,
 	});
 	await newOrder.save();
 };

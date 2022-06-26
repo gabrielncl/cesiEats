@@ -25,16 +25,15 @@ const getCart = (req, res, next) => {
 
 const updateCart = async (req, res) => {
 	const id = req.params.id;
-	//console.log(id);
-	const article = Article.findById(req.params.id);
-	const restaurant = Restaurant.find({ _id: article.restaurant_id });
-	//console.log(restaurant._id);
+	const article = await Article.findById(req.params.id);
+	const restaurant = await Restaurant.find({ _id: article.restaurant_id });
 	const updateCart = await Cart.findOneAndUpdate(
 		{ user_id: returnUserFromJwt(req, res) },
 		{
 			$push: {
 				article_id: id,
 			},
+			restaurant_id: restaurant[0]._id,
 		}
 	);
 	if (!updateCart) {
