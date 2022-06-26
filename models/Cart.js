@@ -3,20 +3,24 @@ const Schema = mongoose.Schema;
 
 const cartSchema = Schema({
     user_id: {
-        type: Number,
+        type: String,
+    },
+    restaurant_id: {
+        type: String,
+        default: "",
     },
     article_id: {
-        type  :Array,
+        type  : Array,
         default:[]
     },
     menu_id: {
-        type  :Array,
+        type  : Array,
         default:[]
     },
-    totalprice:{
-        type:Number,
-        required: true,
+    totalPrice:{
+        type: Number,
+        default: 0
     },
 
 })
-module.exports = mongoose.model('cart',cartSchema)
+module.exports = mongoose.model('Cart', cartSchema)

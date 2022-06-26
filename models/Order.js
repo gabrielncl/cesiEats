@@ -8,18 +8,15 @@ const orderSchema = Schema({
     },
     restaurant_id: {
         type: String,
-        required: true
     },
     description: {
 		type: String,
 	},
     totalprice:{
         type: Number,
-        required: true
     },
     deliveryAddress:{
         type: String,
-        required: true
     },
     article_id: {
         type: Array,
