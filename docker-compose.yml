@@ -10,13 +10,13 @@ services:
       traefik.port: "8000"
     depends_on:
       - mongo
-    command: npm run start
+    command: npm run start && npm install
   user-vue:
     image: node:16
     labels:
       traefik.frontend.rule: "Host: user.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/user
     volumes:
       - ../cesieats_front/user:/var/www/user
@@ -25,7 +25,7 @@ services:
     labels:
       traefik.frontend.rule: "Host: tech.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/tech
     volumes:
       - ../cesieats_front/tech:/var/www/tech
@@ -34,7 +34,7 @@ services:
     labels:
       traefik.frontend.rule: "Host: restaurant.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/restaurant
     volumes:
       - ../cesieats_front/restaurant:/var/www/restaurant
@@ -43,7 +43,7 @@ services:
     labels:
       traefik.frontend.rule: "Host: deliverer.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/deliverer
     volumes:
       - ../cesieats_front/deliverer:/var/www/deliverer
@@ -52,7 +52,7 @@ services:
     labels:
       traefik.frontend.rule: "Host: dev.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/dev
     volumes:
       - ../cesieats_front/dev:/var/www/dev
@@ -61,7 +61,7 @@ services:
     labels:
       traefik.frontend.rule: "Host: com.cesieats.loc;"
       traefik.port: "8080"
-    command: npm run serve
+    command: npm run serve && npm install
     working_dir: /var/www/com
     volumes:
       - ../cesieats_front/com:/var/www/com

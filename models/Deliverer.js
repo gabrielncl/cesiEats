@@ -29,10 +29,6 @@ const delivererSchema = Schema({
 	referrer: {
 		type: String,
 	},
-    photo: {
-		type: String,
-	},
-	//refreshToken: String,
 });
 
 module.exports = mongoose.model("Deliverer", delivererSchema);

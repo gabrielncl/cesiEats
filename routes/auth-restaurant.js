@@ -22,13 +22,7 @@ const {
 	updateRestaurant,
 } = require("../controllers/RestaurantController");
 
-const { handleNewDelivery, getDelivery } = require("../controllers/DeliveryController");
-
-// RESTAURANT
-/*router.get("/get", async (req, res) => {
-	const posts = await Restaurant.find();
-	res.send(posts);
-});*/
+const { getOrdersByRestaurant, validateOrder } = require("../controllers/OrderController");
 
 router.post("/login", async (req, res) => {
 	handleLogin(req, res);
@@ -74,17 +68,14 @@ router.delete("/menu/delete/:id", checkJWT, async (req, res) => {
 	deleteMenu(req, res);
 });
 
+//ORDERS
+
 router.get("/orders", checkJWT, async (req, res, next) => {
-	getOrders(req, res);
+	getOrdersByRestaurant(req, res);
 });
 
-//DELIVERY
-router.get("/delivery/create", checkJWT, async (req, res, next) => {
-	getDelivery(req, res);
-});
-
-router.get("/delivery", checkJWT, async (req, res, next) => {
-	handleNewDelivery(req, res);
+router.put("/orders/validate/:id", checkJWT, async (req, res, next) => {
+	validateOrder(req, res);
 });
 
 module.exports = router;

@@ -18,7 +18,6 @@ const menuSchema = Schema({
 	},
 	restaurant_id: {
 		type: Number,
-		unique: true,
 	},
     article_id: {
 		type: Array,

@@ -1,5 +1,4 @@
 var express = require("express");
-const Commercial = require("../models/Commercial");
 var router = express.Router();
 const {
 	handleNewCommercial,
@@ -8,11 +7,13 @@ const {
 	updateCommercial,
 } = require("../controllers/CommercialController");
 
+const { checkJWT } = require("../modules/jwt");
 
-router.get("/get", async (req, res, next) => {
-	const posts = await Commercial.find();
-	res.send(posts);
-});
+const {
+	handleNewUser,
+	deleteUser,
+	updateUser,
+} = require("../controllers/UserController");
 
 router.post("/login", async (req, res, next) => {
 	handleLogin(req, res);
@@ -22,12 +23,24 @@ router.post("/register", async (req, res, next) => {
 	handleNewCommercial(req, res);
 });
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", checkJWT, async (req, res, next) => {
 	deleteCommercial(req, res);
 });
 
-router.put("/update/:id", async (req, res, next) => {
+router.put("/update/:id", checkJWT, async (req, res, next) => {
 	updateCommercial(req, res);
+});
+
+router.post("/user/register", async (req, res, next) => {
+	handleNewUser(req, res);
+});
+
+router.delete("/user/delete/:id", checkJWT, async (req, res, next) => {
+	deleteUser(req, res);
+});
+
+router.put("/user/update/:id", checkJWT, async (req, res, next) => {
+	updateUser(req, res);
 });
 
 module.exports = router;
