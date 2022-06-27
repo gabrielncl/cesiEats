@@ -91,6 +91,14 @@ const getOrder = async (req, res) => {
 	});
 };
 
+const getAllOrders = async (req, res) => {
+	const orders = await Order.find();
+	res.status(200).json({
+		message: "Orders Fetched",
+		data: { status: "success", orders },
+	});
+};
+
 module.exports = {
 	handleNewOrder,
 	getOrders,
@@ -100,4 +108,5 @@ module.exports = {
 	getAvailableOrders,
 	chooseOrderToDeliver,
 	delivered,
+	getAllOrders,
 };

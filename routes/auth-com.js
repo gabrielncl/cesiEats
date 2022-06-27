@@ -15,6 +15,8 @@ const {
 	updateUser,
 } = require("../controllers/UserController");
 
+const { getAllOrders } = require("../controllers/OrderController");
+
 router.post("/login", async (req, res, next) => {
 	handleLogin(req, res);
 });
@@ -41,6 +43,10 @@ router.delete("/user/delete/:id", checkJWT, async (req, res, next) => {
 
 router.put("/user/update/:id", checkJWT, async (req, res, next) => {
 	updateUser(req, res);
+});
+
+router.get("/orders", checkJWT, async (req, res, next) => {
+	getAllOrders(req, res);
 });
 
 module.exports = router;
