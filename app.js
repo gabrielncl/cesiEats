@@ -3,8 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const mongoose = require("mongoose");
 
-var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/auth-user");
 var devsRouter = require("./routes/auth-dev");
 var techsRouter = require("./routes/auth-tech");
@@ -26,7 +26,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/devs", devsRouter);
 app.use("/techs", techsRouter);
@@ -40,6 +39,18 @@ app.use('/shop', shop);
 app.use(function (req, res, next) {
 	next(createError(404));
 });
+
+// database handler
+const uri =
+	"mongodb+srv://cesieats_groupe3:5ABgeMoZ6XMRJDS6@cluster0.lezhpzm.mongodb.net";
+mongoose
+	.connect(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		dbName: "cesieats",
+	})
+	.then(() => console.log("Connexion à MongoDB réussie !"))
+	.catch(() => console.log("Connexion à MongoDB échouée !"));
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -23,6 +23,7 @@ const userSchema = Schema({
 	phone: {
 		type: Number,
 		required: true,
+		unique: true
 	},
 	referralCode: {
 		type: String,
@@ -30,11 +31,6 @@ const userSchema = Schema({
 	referrer: {
 		type: String,
 	},
-	order_id: {
-		type: Array,
-		default: [],
-	},
-
 });
 
 module.exports = mongoose.model("User", userSchema);

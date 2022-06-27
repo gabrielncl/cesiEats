@@ -1,9 +1,9 @@
 const Article = require("../models/Article");
+const { returnUserFromJwt } = require("../modules/jwt");
 
 // ARTICLE
 const handleNewArticle = async (req, res) => {
-	const { name, description, price, photo, category_id, restaurant_id } =
-		req.body;
+	const { name, description, price, photo, category_id } = req.body;
 
 	const newArticle = new Article({
 		name,
@@ -11,7 +11,7 @@ const handleNewArticle = async (req, res) => {
 		price,
 		photo,
 		category_id,
-		restaurant_id,
+		restaurant_id: returnUserFromJwt(req, res)
 	});
 
 	await newArticle.save();
@@ -23,12 +23,10 @@ const handleNewArticle = async (req, res) => {
 
 const deleteArticle = async (req, res) => {
 	const deletedArticle = await Article.findByIdAndDelete(req.params.id);
-	res
-		.status(200)
-		.json({
-			message: "Article Deleted",
-			data: { status: "success", article: deletedArticle },
-		});
+	res.status(200).json({
+		message: "Article Deleted",
+		data: { status: "success", article: deletedArticle },
+	});
 };
 
 const updateArticle = async (req, res) => {
@@ -42,12 +40,10 @@ const updateArticle = async (req, res) => {
 		category,
 		restaurantName,
 	});
-	res
-		.status(200)
-		.json({
-			message: "Article Updated",
-			data: { status: "success", article: article },
-		});
+	res.status(200).json({
+		message: "Article Updated",
+		data: { status: "success", article: article },
+	});
 };
 
 getArticle = async (req, res) => {
@@ -62,5 +58,5 @@ module.exports = {
 	handleNewArticle,
 	updateArticle,
 	deleteArticle,
-	getArticle
+	getArticle,
 };

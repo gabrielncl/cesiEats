@@ -2,10 +2,12 @@ const User = require("../models/User");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
 const bcryptjs = require("bcryptjs");
-const { createJWT, checkJWT } = require("../modules/jwt");
+const { createJWT } = require("../modules/jwt");
+const Cart = require("../models/Cart");
 
 const handleNewUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone, referrer } = req.body;
+	const { article_id, menu_id, totalPrice } = req.body;
 
 	const newUser = new User({
 		firstname,
@@ -20,7 +22,6 @@ const handleNewUser = async (req, res) => {
 
 	await newUser.save((err, newUser) => {
 		if (err) {
-			console.error(err);
 			res.status(500).json({
 				message: "User already exists",
 				data: { status: "error", error: err },
@@ -30,6 +31,13 @@ const handleNewUser = async (req, res) => {
 				message: "User Created",
 				data: { status: "success", user: newUser },
 			});
+			const newCart = new Cart({
+				user_id: newUser._id,
+				article_id,
+				menu_id,
+				totalPrice,
+			});
+			newCart.save();
 		}
 	});
 };
@@ -64,9 +72,9 @@ const deleteUser = async (req, res) => {
 	if (!deletedUser) {
 		res.status(401).json({
 			message: "User doesn't exist",
-			data:{ status: "error"}
-		}); 
-	/*} if (deletedUser.length != 24 ) {
+			data: { status: "error" },
+		});
+		/*} if (deletedUser.length != 24 ) {
 		res.status(401).json({
 			message: "User doesn't exist",
 			data:{ status: "error"}
@@ -92,8 +100,8 @@ const updateUser = async (req, res) => {
 	if (!updateUser) {
 		res.status(401).json({
 			message: "User doesn't exist",
-			data:{ status: "error"}
-		});  
+			data: { status: "error" },
+		});
 	} else {
 		res.status(200).json({
 			message: "User Updated",

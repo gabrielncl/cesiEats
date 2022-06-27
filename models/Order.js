@@ -8,18 +8,15 @@ const orderSchema = Schema({
     },
     restaurant_id: {
         type: String,
-        required: true
     },
     description: {
 		type: String,
 	},
     totalprice:{
         type: Number,
-        required: true
     },
     deliveryAddress:{
         type: String,
-        required: true
     },
     article_id: {
         type: Array,
@@ -36,5 +33,9 @@ const orderSchema = Schema({
         type: Date,
         default: Date.now,
     },
+    idDelivered: {
+        type: Boolean,
+        default: false,
+    }
 })
 module.exports = mongoose.model('Order', orderSchema)

@@ -2,7 +2,7 @@ const Restaurant = require("../models/Restaurant");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
 const bcryptjs = require("bcryptjs");
-const token = require("../modules/jwt");
+const { createJWT } = require("../modules/jwt");
 
 // AUTHENTIFICATION
 const handleNewRestaurant = async (req, res) => {
@@ -14,24 +14,24 @@ const handleNewRestaurant = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-        logo,
+		logo,
 		referralCode,
-		referrer: ((await Restaurant.find({ referralCode: referrer }))[0] || {})._id,
+		referrer: ((await Restaurant.find({ referralCode: referrer }))[0] || {})
+			._id,
 	});
-
-	await newRestaurant.save((err, newRestaurant));
-	if (err) {
-		console.error(err);
-		res.status(500).json({
-			message: "Restaurant already exists",
-			data: { status: "error", error: err },
-		});
-	} else {
-		res.status(200).json({
-			message: "Restaurant Created",
-			data: { status: "success", user: newRestaurant },
-		});
-	}
+	await newRestaurant.save((err, newRestaurant) => {
+		if (err) {
+			res.status(500).json({
+				message: "Restaurant already exists",
+				data: { status: "error", error: err },
+			});
+		} else {
+			res.status(200).json({
+				message: "Restaurant Created",
+				data: { status: "success", restaurant: newRestaurant },
+			});
+		}
+	});
 };
 
 const handleLogin = async (req, res) => {
@@ -40,15 +40,24 @@ const handleLogin = async (req, res) => {
 	if (!restaurant) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcryptjs.compare(password, restaurant.password);
+		const isValidPassword = await bcryptjs.compare(
+			password,
+			restaurant.password
+		);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
-			const jwtToken = token(restaurant);
-			res.status(200).json({
-				message: "restaurant Logged",
-				data: { status: "success", restaurant: restaurant, token: jwtToken },
-			});
+			const token = createJWT(restaurant);
+			res
+				.cookie("token", token, {
+					httpOnly: true,
+					maxAge: 1000 * 60 * 60,
+				})
+				.status(200)
+				.json({
+					message: "Restaurant Logged",
+					data: { status: "success", restaurant: restaurant },
+				});
 		}
 	}
 };
@@ -58,8 +67,8 @@ const deleteRestaurant = async (req, res) => {
 	if (!deletedRestaurant) {
 		res.status(401).json({
 			message: "Restaurant doesn't exist",
-			data:{ status: "error"}
-		}); 
+			data: { status: "error" },
+		});
 	} else {
 		res.status(200).json({
 			message: "Restaurant Deleted",
@@ -76,14 +85,13 @@ const updateRestaurant = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer,
-        logo,
+		logo,
 	});
 	if (!updateRestaurant) {
 		res.status(401).json({
 			message: "Restaurant doesn't exist",
-			data:{ status: "error"}
-		});  
+			data: { status: "error" },
+		});
 	} else {
 		res.status(200).json({
 			message: "Restaurant Updated",

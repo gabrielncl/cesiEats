@@ -1,32 +1,20 @@
 const Order = require("../models/Order");
+const Cart = require("../models/Cart");
 const { returnUserFromJwt } = require("../modules/jwt");
 
 const handleNewOrder = async (req, res) => {
-	const { description, totalprice, deliveryAddress, article_id, menu_id } =
-		req.body;
+	const cart = await Cart.findOne({ user_id: returnUserFromJwt(req, res) });
+	const { description, deliveryAddress } = req.body;
 
 	const newOrder = new Order({
 		user_id: returnUserFromJwt(req, res),
 		description,
-		totalprice,
 		deliveryAddress,
-		article_id,
-		menu_id,
+		article_id: cart.article_id,
+		menu_id: cart.menu_id,
+		restaurant_id: cart.restaurant_id,
 	});
-	await newOrder.save((err, newOrder) => {
-		if (err) {
-			console.error(err);
-			res.status(500).json({
-				message: "Order already exists",
-				data: { status: "error", error: err },
-			});
-		} else {
-			res.status(200).json({
-				message: "Order Created",
-				data: { status: "success", order: newOrder },
-			});
-		}
-	});
+	await newOrder.save();
 };
 
 const getOrders = async (req, res) => {
@@ -36,7 +24,7 @@ const getOrders = async (req, res) => {
 		message: "Orders Fetched",
 		data: { status: "success", orders },
 	});
-}
+};
 const getOrder = async (req, res) => {
 	const id = req.params.id;
 	const order = await Order.findById(id);
