@@ -33,15 +33,6 @@ router.put("/update/:id", checkJWT, async (req, res, next) => {
 	updateUser(req, res);
 });
 
-//ORDER
-/*router.post("/order/create", checkJWT, async (req, res, next) => {
-	handleNewOrder(req, res);
-});
-
-router.get("/order/update", checkJWT, async (req, res, next) => {
-	handleCart(req, res);
-});*/
-
 // CART
 router.get("/cart", checkJWT, async (req, res, next) => {
 	getCart(req, res);
@@ -59,14 +50,5 @@ router.post("/cart/payment", checkJWT, async (req, res, next) => {
 router.get("/orders", checkJWT, async (req, res, next) => {
 	getOrders(req, res);
 });
-
-/*//DELIVERY
-router.get("/delivery/create", checkJWT, async (req, res, next) => {
-	getDelivery(req, res);
-});
-
-router.get("/delivery", checkJWT, async (req, res, next) => {
-	handleNewDelivery(req, res);
-});*/
 
 module.exports = router;

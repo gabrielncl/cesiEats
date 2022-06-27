@@ -2,10 +2,10 @@ const Deliverer = require("../models/Deliverer");
 const handlePassword = require("../modules/hashPassword");
 const referralCode = require("../modules/referralCode");
 const bcryptjs = require("bcryptjs");
-const { createJWT, checkJWT } = require("../modules/jwt");
+const { createJWT } = require("../modules/jwt");
 
 const handleNewDeliverer = async (req, res) => {
-	const { firstname, lastname, address, email, phone, photo, referrer } = req.body;
+	const { firstname, lastname, address, email, phone, referrer } = req.body;
 
 	const newDeliverer = new Deliverer({
 		firstname,
@@ -14,24 +14,24 @@ const handleNewDeliverer = async (req, res) => {
 		email,
 		password: await handlePassword(req, res),
 		phone,
-		referrer: ((await Deliverer.find({ referralCode: referrer }))[0] || {})._id,
 		referralCode,
-        photo,
+		referrer: ((await Deliverer.find({ referralCode: referrer }))[0] || {})._id,
 	});
 
-	await newDeliverer.save((err, newDeliverer));
-	if (err) {
-		console.error(err);
-		res.status(500).json({
-			message: "Deliverer already exists",
-			data: { status: "error", error: err },
-		});
-	} else {
-		res.status(200).json({
-			message: "Deliverer Created",
-			data: { status: "success", user: newDeliverer },
-		});
-	}
+	await newDeliverer.save((err, newDeliverer) => {
+		if (err) {
+			console.error(err);
+			res.status(500).json({
+				message: "Deliverer already exists",
+				data: { status: "error", error: err },
+			});
+		} else {
+			res.status(200).json({
+				message: "Deliverer Created",
+				data: { status: "success", user: newDeliverer },
+			});
+		}
+	});
 };
 
 const handleLogin = async (req, res) => {
@@ -40,14 +40,21 @@ const handleLogin = async (req, res) => {
 	if (!deliverer) {
 		res.status(401).send("Invalid email or password");
 	} else {
-		const isValidPassword = await bcryptjs.compare(password, deliverer.password);
+		const isValidPassword = await bcryptjs.compare(
+			password,
+			deliverer.password
+		);
 		if (!isValidPassword) {
 			res.status(401).send("Invalid email or password");
 		} else {
-			const jwtToken = token(deliverer);
+			const token = createJWT(deliverer);
+			res.cookie("token", token, {
+				httpOnly: true,
+				maxAge: 1000 * 60 * 60,
+			});
 			res.status(200).json({
 				message: "Deliverer Logged",
-				data: { status: "success", deliverer: deliverer, token: jwtToken },
+				data: { status: "success", deliverer: deliverer },
 			});
 		}
 	}
@@ -58,8 +65,8 @@ const deleteDeliverer = async (req, res) => {
 	if (!deletedDeliverer) {
 		res.status(401).json({
 			message: "Deliverer doesn't exist",
-			data:{ status: "error"}
-		}); 
+			data: { status: "error" },
+		});
 	} else {
 		res.status(200).json({
 			message: "Deliverer Deleted",
@@ -68,32 +75,8 @@ const deleteDeliverer = async (req, res) => {
 	}
 };
 
-const updateDeliverer = async (req, res) => {
-	const { firstname, lastname, photo, email, phone } = req.body;
-	const updateDeliverer = await Deliverer.findByIdAndUpdate(req.params.id, {
-		firstname,
-		lastname,
-		email,
-		phone,
-		password: await handlePassword(req, res),
-		photo,
-	});
-	if (!updateDeliverer) {
-		res.status(401).json({
-			message: "Deliverer doesn't exist",
-			data:{ status: "error"}
-		});  
-	} else {
-		res.status(200).json({
-			message: "Deliverer Updated",
-			data: { status: "success", user: updateDeliverer },
-		});
-	}
-};
-
 module.exports = {
 	handleNewDeliverer,
 	handleLogin,
 	deleteDeliverer,
-	updateDeliverer,
 };
