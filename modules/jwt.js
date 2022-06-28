@@ -6,7 +6,7 @@ const createJWT = (user) =>
 	});
 
 const checkJWT = (req, res, next) => {
-	const token = req.cookies.token;
+	const token = localStorage.getItem('token');
 	jwt.verify(token, process.env.JWT_SECRET, (err) => {
 		if (err) {
 			res.status(401).send("Invalid token").redirect("/login");

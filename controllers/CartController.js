@@ -16,7 +16,7 @@ const getCart = (req, res, next) => {
 			} else {
 				res.status(200).json({
 					message: "Cart",
-					data: { status: "success", cart },
+					cart: cart,
 				});
 			}
 		}
