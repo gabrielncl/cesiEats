@@ -61,7 +61,8 @@ const handleLogin = async (req, res) => {
 				.status(200)
 				.json({
 					message: "User Logged",
-					data: { status: "success", user: user },
+					token: token,
+					user: user,
 				});
 		}
 	}
@@ -74,11 +75,6 @@ const deleteUser = async (req, res) => {
 			message: "User doesn't exist",
 			data: { status: "error" },
 		});
-		/*} if (deletedUser.length != 24 ) {
-		res.status(401).json({
-			message: "User doesn't exist",
-			data:{ status: "error"}
-		}); */
 	} else {
 		res.status(200).json({
 			message: "User Deleted",

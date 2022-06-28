@@ -56,7 +56,8 @@ const handleLogin = async (req, res) => {
 				.status(200)
 				.json({
 					message: "Restaurant Logged",
-					data: { status: "success", restaurant: restaurant },
+					token: token,
+					restaurant: restaurant ,
 				});
 		}
 	}

@@ -54,7 +54,8 @@ const handleLogin = async (req, res) => {
 			});
 			res.status(200).json({
 				message: "Deliverer Logged",
-				data: { status: "success", deliverer: deliverer },
+				token: token,
+				deliverer: deliverer,
 			});
 		}
 	}

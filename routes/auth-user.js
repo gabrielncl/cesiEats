@@ -38,7 +38,7 @@ router.get("/cart", checkJWT, async (req, res, next) => {
 	getCart(req, res);
 });
 
-router.put("/cart/:id", async (req, res, next) => {
+router.put("/cart/:id", checkJWT, async (req, res, next) => {
 	updateCart(req, res);
 })
 
