@@ -7,7 +7,7 @@ const {
 const { getArticle } = require("../controllers/ArticleController");
 const { checkJWT } = require("../modules/jwt");
 
-router.get("/", checkJWT, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
 	getRestaurants(req, res);
 });
 
