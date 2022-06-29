@@ -32,49 +32,49 @@ router.post("/register", async (req, res) => {
 	handleNewRestaurant(req, res);
 });
 
-router.delete("/delete/:id", checkJWT, async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
 	deleteRestaurant(req, res);
 });
 
-router.put("/update/:id", checkJWT, async (req, res) => {
+router.put("/update/:id", async (req, res) => {
 	updateRestaurant(req, res);
 });
 
 // ARTICLE
 
-router.post("/article/create", checkJWT, async (req, res) => {
+router.post("/article/create", async (req, res) => {
 	handleNewArticle(req, res);
 });
 
-router.put("/article/edit/:id", checkJWT, async (req, res) => {
+router.put("/article/edit/:id", async (req, res) => {
 	updateArticle(req, res);
 });
 
-router.delete("/article/delete/:id", checkJWT, async (req, res) => {
+router.delete("/article/delete/:id", async (req, res) => {
 	deleteArticle(req, res);
 });
 
 //MENU
 
-router.post("/menu/create", checkJWT, async (req, res) => {
+router.post("/menu/create", async (req, res) => {
 	handleNewMenu(req, res);
 });
 
-router.put("/menu/edit/:id", checkJWT, async (req, res) => {
+router.put("/menu/edit/:id", async (req, res) => {
 	updateMenu(req, res);
 });
 
-router.delete("/menu/delete/:id", checkJWT, async (req, res) => {
+router.delete("/menu/delete/:id", async (req, res) => {
 	deleteMenu(req, res);
 });
 
 //ORDERS
 
-router.get("/orders", checkJWT, async (req, res, next) => {
+router.get("/orders", async (req, res, next) => {
 	getOrdersByRestaurant(req, res);
 });
 
-router.put("/orders/validate/:id", checkJWT, async (req, res, next) => {
+router.put("/orders/validate/:id", async (req, res, next) => {
 	validateOrder(req, res);
 });
 

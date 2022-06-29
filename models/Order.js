@@ -18,7 +18,7 @@ const orderSchema = Schema({
 	deliveryAddress: {
 		type: String,
 	},
-	article_id: {
+	article: {
 		type: Array,
 		default: [],
 	},

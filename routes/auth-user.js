@@ -13,7 +13,7 @@ const { getOrders } = require("../controllers/OrderController");
 const { updateCart, getCart, payCart } = require("../controllers/CartController");
 
 //USER
-router.get("/profile", checkJWT, async (req, res) => {
+router.get("/profile", async (req, res) => {
 	res.send(returnUserFromJwt(req, res));
 });
 
@@ -25,11 +25,11 @@ router.post("/register", async (req, res, next) => {
 	handleNewUser(req, res);
 });
 
-router.delete("/delete/:id", checkJWT, async (req, res, next) => {
+router.delete("/delete/:id", async (req, res, next) => {
 	deleteUser(req, res);
 });
 
-router.put("/update/:id", checkJWT, async (req, res, next) => {
+router.put("/update/:id", async (req, res, next) => {
 	updateUser(req, res);
 });
 
@@ -38,16 +38,16 @@ router.get("/cart", async (req, res, next) => {
 	getCart(req, res);
 });
 
-router.put("/cart/:id", checkJWT, async (req, res, next) => {
+router.put("/cart/:id", async (req, res, next) => {
 	updateCart(req, res);
 })
 
-router.post("/cart/payment", checkJWT, async (req, res, next) => {
+router.post("/cart/payment", async (req, res, next) => {
 	payCart(req, res);
 });
 
 // ORDER
-router.get("/orders", checkJWT, async (req, res, next) => {
+router.get("/orders", async (req, res, next) => {
 	getOrders(req, res);
 });
 

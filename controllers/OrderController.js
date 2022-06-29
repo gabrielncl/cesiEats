@@ -10,7 +10,7 @@ const handleNewOrder = async (req, res) => {
 		user_id: returnUserFromJwt(req, res),
 		description,
 		deliveryAddress,
-		article_id: cart.article_id,
+		article: cart.article,
 		menu_id: cart.menu_id,
 		restaurant_id: cart.restaurant_id,
 	});
