@@ -16,7 +16,14 @@ const checkJWT = (req, res, next) => {
 	});
 };
 const returnUserFromJwt = (req, res) => {
-	const token = req.cookies.token;
+	if (!req.headers["authorization"]) {
+		token = req.cookies.token;
+	} else {
+		token = req.headers["authorization"].substring(
+			7,
+			req.headers["authorization"].length
+		);
+	}
 	const user = jwt.verify(token, process.env.JWT_SECRET);
 	jwt.verify(token, process.env.JWT_SECRET, (err) => {
 		if (err) {
