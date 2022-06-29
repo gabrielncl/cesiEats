@@ -5,6 +5,10 @@ const cartSchema = Schema({
 	user_id: {
 		type: String,
 	},
+	restaurant: {
+		type: Object,
+		default: "",
+	},
 	restaurant_id: {
 		type: String,
 		default: "",
@@ -13,7 +17,7 @@ const cartSchema = Schema({
 		type: Array,
 		default: [],
 	},
-	menu_id: {
+	menu: {
 		type: Array,
 		default: [],
 	},

@@ -1,8 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-const { checkJWT } = require("../modules/jwt");
-
 const {
 	handleNewArticle,
 	updateArticle,
@@ -56,6 +54,7 @@ router.delete("/article/delete/:id", async (req, res) => {
 
 //MENU
 
+/*
 router.post("/menu/create", async (req, res) => {
 	handleNewMenu(req, res);
 });
@@ -67,6 +66,7 @@ router.put("/menu/edit/:id", async (req, res) => {
 router.delete("/menu/delete/:id", async (req, res) => {
 	deleteMenu(req, res);
 });
+*/
 
 //ORDERS
 

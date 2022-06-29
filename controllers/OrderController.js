@@ -1,17 +1,19 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
-const { returnUserFromJwt } = require("../modules/jwt");
+const { returnUserFromJwt, returnObjectFromJwt } = require("../modules/jwt");
 
 const handleNewOrder = async (req, res) => {
 	const cart = await Cart.findOne({ user_id: returnUserFromJwt(req, res) });
+	console.log(cart);
 	const { description, deliveryAddress } = req.body;
 
 	const newOrder = new Order({
-		user_id: returnUserFromJwt(req, res),
+		user: returnObjectFromJwt(req, res),
 		description,
 		deliveryAddress,
 		article: cart.article,
-		menu_id: cart.menu_id,
+		menu: cart.menu,
+		restaurant: cart.restaurant,
 		restaurant_id: cart.restaurant_id,
 	});
 	await newOrder.save();
@@ -37,13 +39,13 @@ const getAvailableOrders = async (req, res) => {
 	});
 	res.status(200).json({
 		message: "Orders Available",
-		data: { status: "success", orders },
+		orders: orders,
 	});
 };
 
 const chooseOrderToDeliver = async (req, res) => {
 	const order = req.params.id;
-	const user = returnUserFromJwt(req, res);
+	const user = returnObjectFromJwt(req, res);
 	const orderToDeliver = await Order.findByIdAndUpdate(order, {
 		whoDelivers: user,
 	});
@@ -69,16 +71,16 @@ const getOrders = async (req, res) => {
 	const orders = await Order.find({ user_id: user });
 	res.status(200).json({
 		message: "Orders Fetched",
-		data: { status: "success", orders },
+		orders: orders,
 	});
 };
 
 getOrdersByRestaurant = async (req, res) => {
-	const restaurant_id = returnUserFromJwt(req, res);
-	const orders = await Order.find({ restaurant_id });
+	const restaurant = returnUserFromJwt(req, res);
+	const orders = await Order.find({ restaurant_id: restaurant });
 	res.status(200).json({
 		message: "Orders Fetched",
-		data: { status: "success", orders },
+		orders: orders,
 	});
 };
 

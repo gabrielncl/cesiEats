@@ -18,7 +18,7 @@ const handleNewDeliverer = async (req, res) => {
 		referrer: ((await Deliverer.find({ referralCode: referrer }))[0] || {})._id,
 	});
 
-	await newDeliverer.save((err, newDeliverer) => {
+	await newDeliverer.save((err, deliverer) => {
 		if (err) {
 			console.error(err);
 			res.status(500).json({
@@ -28,7 +28,7 @@ const handleNewDeliverer = async (req, res) => {
 		} else {
 			res.status(200).json({
 				message: "Deliverer Created",
-				data: { status: "success", user: newDeliverer },
+				deliverer: deliverer,
 			});
 		}
 	});
@@ -71,7 +71,7 @@ const deleteDeliverer = async (req, res) => {
 	} else {
 		res.status(200).json({
 			message: "Deliverer Deleted",
-			data: { status: "success", user: deletedDeliverer },
+			deletedDeliverer: deletedDeliverer,
 		});
 	}
 };

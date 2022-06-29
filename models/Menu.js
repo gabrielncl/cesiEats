@@ -16,11 +16,11 @@ const menuSchema = Schema({
 	photo: {
 		type: String,
 	},
-	restaurant_id: {
-		type: Number,
+	restaurant: {
+		type: Object,
 	},
-    article_id: {
-		type: Array,
+    article: {
+		type: Object,
 		default:[],
 	},
 	//refreshToken: String,

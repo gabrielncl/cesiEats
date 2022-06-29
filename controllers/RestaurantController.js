@@ -22,7 +22,7 @@ const handleNewRestaurant = async (req, res) => {
 	await newRestaurant.save((err, newRestaurant) => {
 		if (err) {
 			res.status(500).json({
-				message: "Restaurant already exists",
+				message: "Restaurant is not valid",
 				data: { status: "error", error: err },
 			});
 		} else {
@@ -57,7 +57,7 @@ const handleLogin = async (req, res) => {
 				.json({
 					message: "Restaurant Logged",
 					token: token,
-					restaurant: restaurant ,
+					restaurant: restaurant,
 				});
 		}
 	}

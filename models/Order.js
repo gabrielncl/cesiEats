@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const orderSchema = Schema({
-	user_id: {
-		type: String,
+	user: {
+		type: Object,
 		required: true,
+	},
+	restaurant: {
+		type: Object,
 	},
 	restaurant_id: {
 		type: String,
@@ -22,7 +25,7 @@ const orderSchema = Schema({
 		type: Array,
 		default: [],
 	},
-	menu_id: {
+	menu: {
 		type: Array,
 		default: [],
 	},
@@ -38,8 +41,8 @@ const orderSchema = Schema({
 		default: false,
 	},
 	whoDelivers: {
-		type: String,
-        default: "",
+		type: Object,
+		default: "",
 	},
 	isDelivered: {
 		type: Boolean,

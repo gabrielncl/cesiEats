@@ -8,6 +8,7 @@ const articleSchema = Schema({
 	},
 	description: {
 		type: String,
+		required: true,
 	},
 	price: {
 		type: Number,
@@ -16,14 +17,15 @@ const articleSchema = Schema({
 	photo: {
 		type: String,
 	},
-	category_id: {
-		type: Number,
-		required: true,
+	category: {
+		type: Object,
 	},
-	restaurant_id:{
+	restaurant:{
+		type: Object,
+	},
+	restaurant_id: {
 		type: String,
-		required: true,
-	}
+	},
 });
 
 module.exports = mongoose.model("Article", articleSchema);

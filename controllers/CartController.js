@@ -24,35 +24,27 @@ const getCart = (req, res, next) => {
 };
 
 const updateCart = async (req, res) => {
-	const id = req.params.id;
 	const article = await Article.findById(req.params.id);
-	const restaurant = await Restaurant.find({ _id: article.restaurant_id });
-	const updateCart = await Cart.findOneAndUpdate(
+	const restaurant = await Restaurant.find({ _id: article.restaurant._id });
+	const cart = await Cart.findOneAndUpdate(
 		{ user_id: returnUserFromJwt(req, res) },
 		{
 			$push: {
-				article: {
-					article_id: id,
-					restaurant_id: restaurant._id,
-					name: article.name,
-					price: article.price,
-					image: article.image,
-					description: article.description,
-					category_id: article.category_id,
-				},
+				article: article,
 			},
+			restaurant: restaurant,
 			restaurant_id: restaurant[0]._id,
 		}
 	);
-	if (!updateCart) {
+	if (!cart) {
 		res.status(500).json({
 			message: "Error",
-			data: { status: "error", error: err },
+			data: { status: "error", error: updateCart },
 		});
 	} else {
 		res.status(200).json({
 			message: "Cart Updated",
-			data: { status: "success", cart: updateCart },
+			cart: cart,
 		});
 	}
 };
@@ -61,9 +53,9 @@ const deleteCart = async (req, res) => {
 	const updateCart = await Cart.findOneAndUpdate(
 		{ user_id: returnUserFromJwt(req, res) },
 		{
-			restaurant_id: "",
+			restaurant: "",
 			article: [],
-			menu_id: [],
+			menu: [],
 			totalPrice: null,
 		}
 	);
@@ -83,7 +75,7 @@ const payCart = async (req, res) => {
 		deleteCart(req, res);
 		res.status(200).json({
 			message: "Order Placed",
-			data: { status: "success", cart: payCart },
+			payCart: payCart,
 		});
 	}
 };
