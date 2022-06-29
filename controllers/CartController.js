@@ -83,7 +83,7 @@ const payCart = async (req, res) => {
 		deleteCart(req, res);
 		res.status(200).json({
 			message: "Order Placed",
-			data: { status: "success", cart: payCart },
+			payCart: payCart,
 		});
 	}
 };

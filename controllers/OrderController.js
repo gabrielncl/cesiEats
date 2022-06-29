@@ -69,7 +69,7 @@ const getOrders = async (req, res) => {
 	const orders = await Order.find({ user_id: user });
 	res.status(200).json({
 		message: "Orders Fetched",
-		data: { status: "success", orders },
+		orders: orders,
 	});
 };
 
