@@ -25,11 +25,11 @@ router.post("/register", async (req, res, next) => {
 	handleNewCommercial(req, res);
 });
 
-router.delete("/delete/:id", checkJWT, async (req, res, next) => {
+router.delete("/delete/:id", async (req, res, next) => {
 	deleteCommercial(req, res);
 });
 
-router.put("/update/:id", checkJWT, async (req, res, next) => {
+router.put("/update/:id", async (req, res, next) => {
 	updateCommercial(req, res);
 });
 
@@ -37,15 +37,15 @@ router.post("/user/register", async (req, res, next) => {
 	handleNewUser(req, res);
 });
 
-router.delete("/user/delete/:id", checkJWT, async (req, res, next) => {
+router.delete("/user/delete/:id", async (req, res, next) => {
 	deleteUser(req, res);
 });
 
-router.put("/user/update/:id", checkJWT, async (req, res, next) => {
+router.put("/user/update/:id", async (req, res, next) => {
 	updateUser(req, res);
 });
 
-router.get("/orders", checkJWT, async (req, res, next) => {
+router.get("/orders", async (req, res, next) => {
 	getAllOrders(req, res);
 });
 

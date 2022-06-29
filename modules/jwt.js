@@ -6,7 +6,14 @@ const createJWT = (user) =>
 	});
 
 const checkJWT = (req, res, next) => {
-	const token = req.cookies.token;
+	if (!req.headers["authorization"]) {
+		token = req.cookies.token;
+	} else {
+		token = req.headers["authorization"].substring(
+			7,
+			req.headers["authorization"].length
+		);
+	}
 	jwt.verify(token, process.env.JWT_SECRET, (err) => {
 		if (err) {
 			res.status(401).send("Invalid token").redirect("/login");

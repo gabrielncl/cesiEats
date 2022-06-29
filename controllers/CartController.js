@@ -31,7 +31,7 @@ const updateCart = async (req, res) => {
 		{ user_id: returnUserFromJwt(req, res) },
 		{
 			$push: {
-				article : {
+				article: {
 					article_id: id,
 					restaurant_id: restaurant._id,
 					name: article.name,
@@ -39,7 +39,7 @@ const updateCart = async (req, res) => {
 					image: article.image,
 					description: article.description,
 					category_id: article.category_id,
-				}
+				},
 			},
 			restaurant_id: restaurant[0]._id,
 		}
@@ -62,7 +62,7 @@ const deleteCart = async (req, res) => {
 		{ user_id: returnUserFromJwt(req, res) },
 		{
 			restaurant_id: "",
-			article_id: [],
+			article: [],
 			menu_id: [],
 			totalPrice: null,
 		}
