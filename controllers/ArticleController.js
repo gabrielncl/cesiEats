@@ -1,7 +1,16 @@
 const Article = require("../models/Article");
-const { returnObjectFromJwt } = require("../modules/jwt");
+const { returnObjectFromJwt, returnUserFromJwt } = require("../modules/jwt");
 
 // ARTICLE
+const getArticles = async (req, res) => {
+	const restaurant = await returnUserFromJwt(req, res);
+	const articles = await Article.find({ restaurant_id: restaurant });
+	res.status(200).json({
+		message: "Articles Fetched",
+		articles: articles,
+	});
+};
+
 const handleNewArticle = async (req, res) => {
 	const { name, description, price, photo, category } = req.body;
 	const restaurant = await returnObjectFromJwt(req, res);
@@ -44,7 +53,7 @@ const updateArticle = async (req, res) => {
 	});
 	res.status(200).json({
 		message: "Article Updated",
-		article: article
+		article: article,
 	});
 };
 
@@ -52,7 +61,7 @@ getArticle = async (req, res) => {
 	const article = await Article.findById(req.params.id);
 	res.status(200).json({
 		message: "Article Fetched",
-		article: article
+		article: article,
 	});
 };
 
@@ -61,4 +70,5 @@ module.exports = {
 	updateArticle,
 	deleteArticle,
 	getArticle,
+	getArticles,
 };

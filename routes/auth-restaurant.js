@@ -5,6 +5,8 @@ const {
 	handleNewArticle,
 	updateArticle,
 	deleteArticle,
+	getArticles,
+	getArticle
 } = require("../controllers/ArticleController");
 
 const {
@@ -20,7 +22,10 @@ const {
 	updateRestaurant,
 } = require("../controllers/RestaurantController");
 
-const { getOrdersByRestaurant, validateOrder } = require("../controllers/OrderController");
+const {
+	getOrdersByRestaurant,
+	validateOrder,
+} = require("../controllers/OrderController");
 
 router.post("/login", async (req, res) => {
 	handleLogin(req, res);
@@ -39,6 +44,14 @@ router.put("/update/:id", async (req, res) => {
 });
 
 // ARTICLE
+
+router.get("/articles", async (req, res) => {
+	getArticles(req, res);
+});
+
+router.get("/article/:id", async (req, res) => {
+	getArticle(req, res);
+});
 
 router.post("/article/create", async (req, res) => {
 	handleNewArticle(req, res);
