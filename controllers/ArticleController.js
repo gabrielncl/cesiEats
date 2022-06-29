@@ -1,23 +1,24 @@
 const Article = require("../models/Article");
-const { returnUserFromJwt } = require("../modules/jwt");
+const { returnObjectFromJwt } = require("../modules/jwt");
 
 // ARTICLE
 const handleNewArticle = async (req, res) => {
 	const { name, description, price, photo, category_id } = req.body;
-
-	const newArticle = new Article({
+	const restaurant = await returnObjectFromJwt(req, res);
+	console.log(restaurant);
+	const article = new Article({
 		name,
 		description,
 		price,
 		photo,
 		category_id,
-		restaurant_id: returnUserFromJwt(req, res)
+		restaurant,
 	});
 
-	await newArticle.save();
+	await article.save();
 	res.status(200).json({
 		message: "Article Created",
-		data: { status: "success", article: newArticle },
+		article: article,
 	});
 };
 

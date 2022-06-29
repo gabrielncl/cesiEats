@@ -42,6 +42,26 @@ const returnUserFromJwt = (req, res) => {
 	return user_id;
 };
 
+const returnObjectFromJwt = (req, res) => {
+	if (!req.headers["authorization"]) {
+		token = req.cookies.token;
+	} else {
+		token = req.headers["authorization"].substring(
+			7,
+			req.headers["authorization"].length
+		);
+	}
+	const user = jwt.verify(token, process.env.JWT_SECRET);
+	jwt.verify(token, process.env.JWT_SECRET, (err) => {
+		if (err) {
+			res.status(401).send("Invalid token");
+		} else {
+			userObject = user.user;
+		}
+	});
+	return userObject;
+};
+
 const createCookie = (token) => async (req, res) => {
 	res.cookie("token", token, {
 		httpOnly: true,
@@ -59,4 +79,10 @@ const createCookie = (token) => async (req, res) => {
 	});
 };*/
 
-module.exports = { createJWT, createCookie, checkJWT, returnUserFromJwt };
+module.exports = {
+	createJWT,
+	createCookie,
+	checkJWT,
+	returnUserFromJwt,
+	returnObjectFromJwt,
+};

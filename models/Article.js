@@ -11,18 +11,15 @@ const articleSchema = Schema({
 	},
 	price: {
 		type: Number,
-		required: true,
 	},
 	photo: {
 		type: String,
 	},
 	category_id: {
 		type: Number,
-		required: true,
 	},
-	restaurant_id:{
-		type: String,
-		required: true,
+	restaurant:{
+		type: Object,
 	}
 });
 
