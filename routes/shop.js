@@ -5,17 +5,16 @@ const {
 	getArticlesFromRestaurant,
 } = require("../controllers/ShopController");
 const { getArticle } = require("../controllers/ArticleController");
-const { checkJWT } = require("../modules/jwt");
 
 router.get("/", async (req, res, next) => {
 	getRestaurants(req, res);
 });
 
-router.get("/:id", checkJWT, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
 	getArticlesFromRestaurant(req, res);
 })
 
-router.get("/restaurant/:id", checkJWT, async (req, res, next) => {
+router.get("/restaurant/:id", async (req, res, next) => {
 	getArticle(req, res);
 })
 

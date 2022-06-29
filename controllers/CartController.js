@@ -16,7 +16,7 @@ const getCart = (req, res, next) => {
 			} else {
 				res.status(200).json({
 					message: "Cart",
-					data: { status: "success", cart },
+					cart: cart,
 				});
 			}
 		}
@@ -31,7 +31,15 @@ const updateCart = async (req, res) => {
 		{ user_id: returnUserFromJwt(req, res) },
 		{
 			$push: {
-				article_id: id,
+				article : {
+					article_id: id,
+					restaurant_id: restaurant._id,
+					name: article.name,
+					price: article.price,
+					image: article.image,
+					description: article.description,
+					category_id: article.category_id,
+				}
 			},
 			restaurant_id: restaurant[0]._id,
 		}
