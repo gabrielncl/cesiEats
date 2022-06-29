@@ -3,7 +3,7 @@ const { returnObjectFromJwt } = require("../modules/jwt");
 
 // ARTICLE
 const handleNewArticle = async (req, res) => {
-	const { name, description, price, photo, category_id } = req.body;
+	const { name, description, price, photo, category } = req.body;
 	const restaurant = await returnObjectFromJwt(req, res);
 	console.log(restaurant);
 	const article = new Article({
@@ -11,8 +11,9 @@ const handleNewArticle = async (req, res) => {
 		description,
 		price,
 		photo,
-		category_id,
+		category,
 		restaurant,
+		restaurant_id: restaurant._id,
 	});
 
 	await article.save();
@@ -26,24 +27,24 @@ const deleteArticle = async (req, res) => {
 	const deletedArticle = await Article.findByIdAndDelete(req.params.id);
 	res.status(200).json({
 		message: "Article Deleted",
-		data: { status: "success", article: deletedArticle },
+		deletedArticle: deletedArticle,
 	});
 };
 
 const updateArticle = async (req, res) => {
-	const { name, price, photo, description, category, restaurantName } =
-		req.body;
+	const { name, price, photo, description, category } = req.body;
+	const restaurant = await returnObjectFromJwt(req, res);
 	const article = await Article.findByIdAndUpdate(req.params.id, {
 		name,
 		price,
 		photo,
 		description,
 		category,
-		restaurantName,
+		restaurant,
 	});
 	res.status(200).json({
 		message: "Article Updated",
-		data: { status: "success", article: article },
+		article: article
 	});
 };
 
@@ -51,7 +52,7 @@ getArticle = async (req, res) => {
 	const article = await Article.findById(req.params.id);
 	res.status(200).json({
 		message: "Article Fetched",
-		data: { status: "success", article },
+		article: article
 	});
 };
 

@@ -7,7 +7,7 @@ const Cart = require("../models/Cart");
 
 const handleNewUser = async (req, res) => {
 	const { firstname, lastname, address, email, phone, referrer } = req.body;
-	const { article_id, menu_id, totalPrice } = req.body;
+	const { article, menu, totalPrice, restaurant_id } = req.body;
 
 	const newUser = new User({
 		firstname,
@@ -33,9 +33,10 @@ const handleNewUser = async (req, res) => {
 			});
 			const newCart = new Cart({
 				user_id: newUser._id,
-				article_id,
-				menu_id,
+				article,
+				menu,
 				totalPrice,
+				restaurant_id
 			});
 			newCart.save();
 		}

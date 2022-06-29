@@ -8,19 +8,24 @@ const articleSchema = Schema({
 	},
 	description: {
 		type: String,
+		required: true,
 	},
 	price: {
 		type: Number,
+		required: true,
 	},
 	photo: {
 		type: String,
 	},
-	category_id: {
-		type: Number,
+	category: {
+		type: Object,
 	},
 	restaurant:{
 		type: Object,
-	}
+	},
+	restaurant_id: {
+		type: String,
+	},
 });
 
 module.exports = mongoose.model("Article", articleSchema);

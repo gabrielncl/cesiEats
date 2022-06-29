@@ -8,9 +8,13 @@ const {
 	updateUser,
 } = require("../controllers/UserController");
 
-const { checkJWT, returnUserFromJwt } = require("../modules/jwt");
+const { returnUserFromJwt } = require("../modules/jwt");
 const { getOrders } = require("../controllers/OrderController");
-const { updateCart, getCart, payCart } = require("../controllers/CartController");
+const {
+	updateCart,
+	getCart,
+	payCart,
+} = require("../controllers/CartController");
 
 //USER
 router.get("/profile", async (req, res) => {
@@ -40,7 +44,7 @@ router.get("/cart", async (req, res, next) => {
 
 router.put("/cart/:id", async (req, res, next) => {
 	updateCart(req, res);
-})
+});
 
 router.post("/cart/payment", async (req, res, next) => {
 	payCart(req, res);

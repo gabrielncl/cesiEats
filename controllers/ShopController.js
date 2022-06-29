@@ -12,6 +12,7 @@ getRestaurants = async (req, res) => {
 getArticlesFromRestaurant = async (req, res) => {
 	const id = req.params.id;
 	const articles = await Article.find({ restaurant_id: id });
+	console.log(articles);
 	res.status(200).json({
 		message: "Articles Fetched",
 		articles: articles,
